@@ -1,0 +1,113 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+homepage:
+    path: /
+    defaults: {_controller: 'AppBundle\Controller\CompanyController::homepageAction'}
+login:
+    path: /auth/login
+    defaults: {_controller: 'AppBundle\Controller\AuthController::loginAction'}
+logout:
+    path: /auth/logout
+    defaults: {_controller: 'AppBundle\Controller\AuthController::logoutAction'}
+signup_email:
+    path: /auth/signup/{hash}
+    defaults: {_controller: AppBundle:Auth:signup}
+    requirements:
+      hash: \w{32}
+
+subscribe:
+    path: /subscribe
+    defaults: {_controller: AppBundle:Company:subscribeForm}
+    methods: POST
+
+account_day_list:
+    path: /account/day-list/{page}
+    defaults: {_controller: AppBundle:Account:dayList, page: 1}
+    requirements:
+        page: \d+
+
+account_day:
+    path: /account/day/{id}
+    defaults: {_controller: AppBundle:Account:day}
+    requirements:
+      day: \d+
+
+order_main:
+    path: /order/{id}
+    defaults: {_controller: AppBundle:Company:order2}
+    requirements:
+        id: \d+
+
+blog_index:
+    path: /blog/{page}
+    defaults: {_controller: AppBundle:Post:index, page: 1}
+
+blog_view:
+    path: /blog-article/{id}
+    defaults: {_controller: AppBundle:Post:view}
+    requirements:
+        id: \d+
+
+password_reset:
+    path: /auth/password-reset
+    defaults: {_controller: AppBundle:Auth:passwordReset}
+
+mail-confirm:
+    path: /mail-confirm
+    defaults: {_controller: AppBundle:Auth:confirm}
+
+city_search:
+    path: /city
+    defaults: {_controller: AppBundle:Company:city}
+
+payment_finish:
+    path: /payment-finish
+    defaults: {_controller: AppBundle:Company:paymentFinish}
+
+payment_fail:
+    path: /payment-fail
+    defaults: {_controller: AppBundle:Company:paymentFail}
+
+how_it_works_page:
+    path: /company/how-it-works
+    defaults: {_controller: AppBundle:Company:howItWorks}
+
+about_us_page:
+    path: /company/about-us
+    defaults: {_controller: AppBundle:Company:aboutUs}
+
+about_challenge:
+    path: /about-challenge
+    defaults: {_controller: AppBundle:Company:aboutChallenge}
+
+company_page:
+    path: /company/{slug}
+    defaults: {_controller: AppBundle:Company:companyPage}
+
+
+dashboard:
+    resource: 'easy_admin/routing.yml'
+    prefix: /dashboard
+
+elfinder:
+     resource: "@FMElfinderBundle/Resources/config/routing.yml"
+
+create_discount:
+  path: /create-discount/09EsdnCDOhSd7fO5pyTOm-qqfhrYqiJU
+  defaults: {_controller: AppBundle:Company:createDiscount}
+
+
+#THIS MUST BE THE LAST!!!!!
+landing:
+    defaults: {_controller: AppBundle:Widgets\Landing:showLanding}
+    path: /{slug}
+    requirements:
+        slug: '[a-zA-Z0-9-]{3,}'
+
+remove_trailing_slash:
+    path: /{url}
+    defaults: { _controller: AppBundle:Company:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET, POST]

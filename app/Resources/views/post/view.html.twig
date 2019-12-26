@@ -1,0 +1,12 @@
+{% extends 'layouts/main.html.twig' %}
+{% block body %}
+    <h1>{{ post.title }}</h1>
+    {% if post.image %}
+        <p>
+            <a href="{{ asset(imageHelper.imageLink(post)) }}"><img src="{{ asset(imageHelper.imageLink(post, 'small')) }}" alt=""></a>
+        </p>
+    {% endif %}
+    <p>
+        {{ post.text|raw }}
+    </p>
+{% endblock %}

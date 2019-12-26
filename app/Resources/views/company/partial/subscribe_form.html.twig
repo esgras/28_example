@@ -1,0 +1,26 @@
+{#{% include 'partial/footer_flash_messages.html.twig' %}#}
+{% if message %}
+    <div class="alert alert-success">
+        <span style="vertical-align: middle">{{ message }}</span>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+{% endif %}
+{% if showSubscribeForm %}
+    {{ form_start(form, {attr: {class: 'subscription', action: path('subscribe')}}) }}
+    {% if formError %}
+        <span class="invalid-feedback d-block"><span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">Ошибка</span> <span
+                        class="">{{ formError }}</span>
+                </span></span>
+    {% endif %}
+    <label for="subscribe_email" class="subscription__label">
+        {{ form_widget(form.email, {attr: {class: 'subscription__input', placeholder: 'Mail'}}) }}
+        <button type="submit" class="subscription__button button-full">
+            узнать подробнее о челендже
+            <span class="icon-mail-envelope-closed"></span>
+        </button>
+    </label>
+    {{ form_end(form) }}
+{% else %}
+    <p class="subscribe__exists">Подписка оформлена</p>
+{% endif %}

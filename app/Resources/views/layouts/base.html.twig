@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#dab881">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/img/favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('assets/img/favicon/safari-pinned-tab.svg') }}" color="#dab881">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>{% block title %}Главная{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_content.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/additional.css') }}"/>
+    {% endblock %}
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1890673634393800');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=1890673634393800&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body class="loaded">
+{% include 'partial/analitics/mail_ru.html.twig' %}
+<!-- BODY -->
+{% set flashesAll = app.flashes %}
+<div class="main-wrapper">
+    {% block header%}
+    <!-- HEADER -->
+
+    <header class="header border-radius-b-r{% if headerAdditionalClass is defined%} {{ headerAdditionalClass }}{% endif %}">
+        <div class="wrapper">
+            <div class="header__top">
+                <a href="{{ path('homepage') }}" class="logo">
+                    <img src="{{ asset('assets/img/logo-light.svg') }}" class="logo__img" alt="28 дней" title="28 дней">
+                </a>
+
+                {% block header_menu %}
+                    <div class="header-menu ">
+                        <button class="header-menu__button-switch button-transparent-bright burger-js">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+
+                        <div class="header-menu__content">
+                            <div class="header-menu__nav{% if headerMenuNavClass is defined%} {{  headerMenuNavClass }}{% endif %}">
+                                <a href="{{ path('how_it_works_page') }}" class="header-menu__nav-link">Как это работает</a>
+                                <a href="{{ path('blog_index') }}" class="header-menu__nav-link">Блог</a>
+                                <a href="{{ path('about_us_page') }}" class="header-menu__nav-link">О нас</a>
+                            </div>
+
+                            <a href="{{ path('homepage') }}#section-tariff" class="header-menu__link button-full">Принять вызов</a>
+                            {% if not app.user %}
+
+                                <a href="{{ path('login') }}"
+                                   class="header-menu__link button-transparent button-transparent-bright">Войти</a>
+                            {% else %}
+                                <div class="header-menu__authorized">
+                                    <p class="header-menu__auth-user auth-list">{{ app.user.name }}</p>
+
+                                    <ul class="header-menu__auth-menu">
+                                        {#<li class="header-menu__auth-menu-item"><a href="#01" class="header-menu__auth-menu-link">Мои данные</a></li>#}
+                                        <li class="header-menu__auth-menu-item"><a href="{{ path('account_day_list') }}" class="header-menu__auth-menu-link">Мои данные</a></li>
+
+                                        {#<li class="header-menu__auth-menu-item"><a href="{{ path('user_account') }}" class="header-menu__auth-menu-link">Мои данные</a></li>#}
+
+                                        <li class="header-menu__auth-menu-item"><a href="{{ path('logout') }}" class="header-menu__auth-menu-link">Выход</a></li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+
+            {% if notShowHeaderContent is not defined %}
+            <div class="header__content">
+                {% block header_content %}
+                    {#<p class="header__text">Челлендж</p>#}
+                    {#<p class="header__title">28 дней без алкоголя,#}
+                        {#которое изменят твою жизнь</p>#}
+                {% endblock %}
+            </div>
+            {% endif %}
+        </div>
+    </header>
+    <!-- HEADER END -->
+    {% endblock %}
+
+    <!-- CONTENT -->
+    <main class="content {% if contentAdditionalClass is defined%} {{ contentAdditionalClass }}{% endif %}">
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <!-- CONTENT END -->
+
+    <!-- FOOTER -->
+    <footer class="footer border-radius-t-r">
+        <div class="wrapper">
+            {% block footer_top %}
+                {{ render(controller('AppBundle:Company:subscribeForm', {flashes: flashesAll})) }}
+            {% endblock %}
+
+            <div class="footer-nav">
+                <div class="footer-nav__contents">
+                    <a href="{{ path('company_page', {'slug' : 'usloviya-dogovora'}) }}" class="footer-nav__contents-link">Условия договора</a>
+                    <a href="{{ path('company_page', {'slug': 'politika-konfidentsialnosti'}) }}" class="footer-nav__contents-link">Политика конфиденциальности</a>
+                    <a href="{{ path('company_page', {'slug' : 'diskleymer'}) }}" class="footer-nav__contents-link">Дисклеймер</a>
+                </div>
+
+                <div class="footer-nav__social">
+                    <a href="https://vk.com/28dney" class="footer-nav__social-link" target="_blank"><i class="icon-vk"></i></a>
+                    <a href="https://www.facebook.com/28_dney-463928620770365" class="footer-nav__social-link" target="_blank"><i class="icon-facebook"></i></a>
+                    <a href="https://www.instagram.com/28_dney/" class="footer-nav__social-link" target="_blank"><i class="icon-instagram"></i></a>
+                    <div class="payment-system">
+                        <img src="{{ asset('assets/img/ico/mastercard.svg') }}" class="payment-system__ico" alt="" title="">
+                        <img src="{{ asset('assets/img/ico/visa.svg') }}" class="payment-system__ico" alt="" title="">
+                        <img src="{{ asset('assets/img/ico/tinkoff_en.svg') }}" class="payment-system__ico" alt="" title="">
+                    </div>
+                </div>
+                <p class="copyright">{{ companyPersonalInfo }}</p>
+            </div>
+
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+</div>
+
+<div class="icon-load"></div>
+<!-- BODY END   -->
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-3.0.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-migrate-1.4.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+{% endblock %}
+{% include 'partial/analitics/google_yandex_fb.html.twig' %}
+</body>
+</html>

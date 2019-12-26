@@ -1,0 +1,23 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'Main Page'|trans }}</h1>
+    {% include 'company/partial/feedback_slider.html.twig' %}
+    {% include 'company/partial/blog_slider.html.twig' %}
+
+    {% if not app.user %}
+        <h2>Buy Items</h2>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-xs-12 col-md-4">
+                    <a href="{{ path('order_main', {id: product.id}) }}">{{ product.name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <br>
+    <div>
+        <h3>{{ 'Subscribe form'|trans }}</h3>
+        {{ form(form) }}
+    </div>
+{% endblock %}

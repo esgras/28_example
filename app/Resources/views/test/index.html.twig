@@ -1,0 +1,13 @@
+{#{% extends 'layouts/base.html.twig' %}#}
+{#{% block body %}#}
+    {#{{ form(form) }}#}
+<h1>{{ day.number }}</h1>
+<h2>{{ day.title }}</h2>
+<p>
+    {{ day.text|raw }}
+</p>
+<video width="320" height="240" controls>
+    <source src="{{ videoHelper.videoLink(day) }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+{#{% endblock %}#}

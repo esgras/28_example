@@ -1,0 +1,159 @@
+easy_admin:
+  site_name: 28 Days
+  design:
+      menu:
+        - User
+        - Feedback
+        - CommonQuestion
+        - Post
+        - Product
+        - label: 'Списки подписчиков'
+          children: ['ThreeSecrets', 'Subscriber']
+#        - Subscriber
+        - CompanyPage
+        - {label: 'menu.days', route: 'products_day_list'}
+        - label: 'Настройки'
+          children:
+            - {label: 'Основные', route: 'dashboard_settings_main'}
+            - {label: 'Письмо со скидкой', route: 'dashboard_settings_discount_mail'}
+        - {label: admin.about_challenge, route: 'about_challenge_edit'}
+        - {entity: LandingPage, label: 'menu.landings' }
+  entities:
+      User:
+        class: AppBundle\Entity\User
+        label: menu.users
+        controller: AppBundle\Admin\Controller\UserController
+        disabled_actions: ['new', 'delete', 'edit']
+        list:
+           fields: [id, email, {property: 'product.name', label: 'course'}, {property: 'created', label: 'date.purchase', format: 'Y-m-d H:i:s'}, {property: 'started', label: 'date.started', format: 'Y-m-d H:i:s'}]
+           actions: ['show']
+        show:
+           fields: [id, email,  {property: 'name', label: 'user.name'}, product.name, created, {property: 'started', label: 'date.started'},  gender, city, age, scope, position, aim]
+      Feedback:
+        class: AppBundle\Entity\Feedback
+        controller: AppBundle\Admin\Controller\FeedbackController
+        label: menu.feedbacks
+        templates:
+          new: '@EasyAdmin/feedback/new.html.twig'
+        list:
+          fields: [{property: 'authorName', label: 'Author'}, text, link, minutes, seconds]
+        form:
+            fields:
+              - {property: 'authorName', type_options: {attr: {length: 50 }}}
+              - {property: 'text', type_options: {attr: {length: 250 }}}
+              - link
+              - { property: 'image', type: 'file', type_options: {attr: {data-label: 'Высота не менее 450px'}} }
+              - {property: 'minutes', type: 'integer', type_options: {attr: {min: 0, max: 60} } }
+              - {property: 'seconds', type: 'integer', type_options: {attr: {min: 0, max: 60} } }
+      CommonQuestion:
+        class: AppBundle\Entity\CommonQuestion
+        label: menu.common_questions
+        list:
+          fields: [title, text]
+        form:
+            fields: [title, text]
+      Post:
+          class: AppBundle\Entity\Post
+          label: menu.posts
+          controller: AppBundle\Admin\Controller\PostController
+          list:
+            fields: [id, title, created, updated]
+          form:
+              fields:
+                - title
+                - { property: 'text', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType', type_options: {config: {toolbar: 'standard'} }}
+                - { property: 'image', type: 'file'}
+          new:
+            fields:
+              - { property: 'image', type_options: { required: true }}
+      Product:
+          class: AppBundle\Entity\Product
+          label: menu.products
+          disabled_actions: ['new', 'delete']
+          list:
+              fields: ['id', 'name', 'days', 'price', 'users']
+          templates:
+                edit: '@EasyAdmin/product/edit.html.twig'
+          form:
+            fields:
+              - {property: 'name', type_options: {attr: {length: 27 }}}
+              - {property: 'text', type_options: {attr: {length: 51 }}}
+              - days
+              - { property: 'month', type: 'choice', type_options: {choices: {Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12} }}
+              - price
+              - {property: 'status', label: 'Активен'}
+      Subscriber:
+          class: AppBundle\Entity\Subscriber
+          label: menu.subscribers
+          disabled_actions: ['new', 'edit', 'show']
+          list:
+              fields: [email, created]
+      ThreeSecrets:
+          class: AppBundle\Entity\Common\ThreeSecrets
+          label: menu.three_secrets
+          disabled_actions: ['new', 'edit', 'show']
+          list:
+              max_results: 30
+              fields: [email, created]
+
+      CompanyPage:
+          class: AppBundle\Entity\CompanyPage
+          label: menu.static_pages
+          disabled_actions: ['new', 'show', 'delete']
+          list:
+              fields: [id, title, slug]
+              dql_filter: "entity.slug NOT IN ('o-nas', 'kak-eto-rabotaet', 'about-challenge')"
+          form:
+              fields:
+                - title
+                - { property: 'text', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType', type_options: {config: {toolbar: 'full'} }}
+      CompanyPageSecond:
+          class: AppBundle\Entity\CompanyPage
+          disabled_actions: ['new', 'show', 'delete', 'edit', 'search']
+          form:
+              fields: ['title', 'youtubeLink', {property: 'image', label: 'Изображение рекомендуемый размер 900x450',type: 'file'}]
+      Day:
+        class: AppBundle\Entity\Day
+        controller: AppBundle\Admin\Controller\DayController
+        label: menu.days
+        search:
+          fields: ['number', 'title']
+        list:
+          max_results: 30
+          fields:
+            - {property: 'number', label: 'day.label'}
+            - title
+            - {property: 'imageFile', label: 'day.previewImage'}
+        templates:
+#            edit: '@EasyAdmin/day/edit.html.twig'
+            list: '@EasyAdmin/day/list.html.twig'
+        form:
+          fields:
+            - {property: 'number', label: 'day.label' }
+            - title
+            - {property: 'text', type: 'fos_ckeditor', type_options: {config: {toolbar: 'full'} }}
+            - { property: 'image', label: 'Изображение рекомендуемый размер 900x600', type: 'file' }
+            - { property: 'video', type: 'file' }
+        edit:
+          fields:
+          - { property: 'number', type_options: { disabled: true }}
+        new:
+          fields:
+            - { property: 'image', label: 'Изображение рекомендуемый размер 900x600', type_options: { required: true }}
+#            - { property: 'video', type_options: { required: true }}
+      LandingPage:
+        class: AppBundle\Entity\Landing\LandingPage
+        label: menu.landing_page
+        disabled_actions: ['new', 'delete']
+        list:
+          fields:
+            - id
+            - title
+            - status
+        form:
+          fields:
+            - title
+            - {property: 'slug', label: 'URL' }
+            - { property: 'cssFile', type: 'file', 'label': 'CSS-стили' }
+            - {property: 'status', type: 'choice', type_options: {choices: {'Черновик': 0, 'Видимый': 1}}}
+        controller: AppBundle\Admin\Controller\LandingPageController

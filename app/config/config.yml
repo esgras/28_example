@@ -1,0 +1,117 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: easy_admin/config.yml }
+    - { resource: fm_elfinder/config.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: ru
+    app.image_temp_upload_directory: '%kernel.project_dir%/var/images/'
+    app.video_temp_upload_directory: '%kernel.project_dir%/var/videos/'
+    app.post_image_path:  '/upload/post/'
+    app.post_image_directory: '%kernel.project_dir%/web/upload/post/'
+    app.feedback_image_path:  '/upload/feedback/'
+    app.feedback_image_directory: '%kernel.project_dir%/web/upload/feedback/'
+    app.company_page_path:  '/upload/company_page/'
+    app.company_page_image_directory: '%kernel.project_dir%/web/upload/company_page/'
+    app.day_image_path:  '/upload/day/image/'
+    app.day_image_directory: '%kernel.project_dir%/web/upload/day/image/'
+    app.day_video_path:  '/upload/day/video/'
+    app.day_video_directory: '%kernel.project_dir%/web/upload/day/video/'
+    app.landing_upload_path:  '/upload/landing/'
+    app.landing_upload_directory: '%kernel.project_dir%/web/upload/landing/'
+    mail.admin_address: 'progvadm@gmail.com'
+    landing_templates_dir: '%kernel.project_dir%/app/Resources/CustomTemplates/landing/'
+#    company.personal_info: "ИП Колосов А.В.\r\n ИНН 770475092568"
+    company.personal_info: "ИП Колосов А.В.\r\n ИНН 770475092568 \r\n ОГРНИП 318774600702350 \r\n Фактический адрес 117312, город Москва, Комсомольский проспект 33\r\n Телефон 89164621873\r\n Факс\r\nEmail info@28dney.ru"
+    facebookGroupUrl: "https://www.facebook.com/groups/28dney.private/"
+#    facebookNewUrl: " https://www.facebook.com/groups/28dney.private/"
+    info_email: 'info@28dney.ru'
+
+framework:
+    #esi: ~
+#    default_locale: 'en'
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    assets:
+        version: 'v1.0.22'
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    paths:
+             '%kernel.project_dir%/app/Resources/views': views
+    form_themes:
+          - 'bootstrap_4_layout.html.twig'
+    globals:
+        imageHelper: '@app.image_helper'
+        videoHelper: '@app.video_helper'
+        videoHelper: '@app.video_helper'
+        companyPersonalInfo: '%company.personal_info%'
+        facebookGroupUrl: '%facebookGroupUrl%'
+        siteUrl: '%site_url%'
+        landingView: '@app.landing_view'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+    auth_mode: login
+    encryption: ssl
+
+sensio_framework_extra:
+   router:
+        annotations: false
+
+fos_ck_editor:
+    default_config: default1
+    configs:
+        default1:
+            filebrowserBrowseRoute: elfinder
+            filebrowserBrowseRouteParameters: []

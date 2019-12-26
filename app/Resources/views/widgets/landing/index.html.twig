@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>{{ page.title }}</title>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="initial-scale=1">
+    <title>The One Year No Beer Challenge</title>
+    <link rel="stylesheet" media="screen" href="https://www.clickfunnels.com/assets/lander.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {#<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">#}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7COswald:400,700%7CDroid+Sans:400,700%7CRoboto:400,700%7CLato:400,700%7CPT+Sans:400,700%7CSource+Sans+Pro:400,700%7CNoto+Sans:400,700%7CPT+Sans:400,700%7CUbuntu:400,700%7CBitter:400,700%7CPT+Serif:400,700%7CRokkitt:400,700%7CDroid+Serif:400,700%7CRaleway:400,700%7CInconsolata:400,700" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        [data-timed-style='fade']{display:none}[data-timed-style='scale']{display:none}
+
+    </style>
+</head>
+<body>
+{#{{ page.text|raw }}#}
+{% if main is defined %}
+{% include 'widgets/landing/content.html.twig' %}
+{% else %}
+    {% for blck in page.blocks %}
+        {{ landingView.renderBlock(blck)|raw }}
+        {#{% set templateName = blck.template.name %}#}
+        {#{{ dump(blck) }}#}
+        {#{{ dump(templateName) }}#}
+        {#<p>{{ blck.id }}</p>#}
+    {% endfor %}
+{% endif %}
+</body>
+</html>

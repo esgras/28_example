@@ -1,0 +1,99 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block body_id 'easyadmin-list-dance_styles' %}
+{% block body_class 'list list-dance_styles' %}
+
+{% block content_title %}
+    {% spaceless %}
+
+    {% endspaceless %}
+{% endblock %}
+
+{#{% block head_stylesheets %}#}
+    {#{{ parent() }}#}
+    {#<link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">#}
+    {#<link rel="stylesheet" href="{{ asset('assets/css/messages.css') }}">#}
+    {#<link rel="stylesheet" href="{{ asset('assets/css/admin/list.css') }}">#}
+{#{% endblock %}#}
+
+{% block content_header %}
+    <div class="row">
+        <div class="col-sm-5">
+            {% block content_title_wrapper %}
+                <h1 class="title">{{ block('content_title') }}</h1>
+            {% endblock %}
+        </div>
+
+        <div class="col-sm-7">
+            <div class="global-actions">
+                {% block global_actions %}
+
+                {% endblock global_actions %}
+            </div>
+        </div>
+    </div>
+{% endblock content_header %}
+
+{% block main %}
+    <h2 class="col-md-offset-1">Настройки</h2><br>
+    <form name="user" method="post" class="form-horizontal  edit-form">
+        {% for key, el in elems  %}
+            <div class="form-group  field-text"><label class="col-sm-3 control-label{% if key == discountStatusKey %} discount-status{% endif %}" for="{{ key }}">
+                    {{ el.label ? el.label : key }}
+                </label>
+                {#{% set type = 'mail' in key ? 'email' : 'text' %}#}
+                <div class="col-sm-9">
+                    {% if key == discountStatusKey %}
+
+
+                    {% set statusClass = el.value ? 'btn-success' : 'btn-danger off' %}
+                    <div class="toggle btn btn-xs {{ statusClass }}" data-toggle="toggle" style="width: 40px; height: 24px;" id="status">
+                        <input type="checkbox" {% if el.value %}checked{% endif %} data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="danger" data-on="On" data-off="Off" id="{{ key }}" name="{{ key }}" value="1">
+                        <div class="toggle-group">
+                            <label class="btn btn-success btn-xs toggle-on">On</label>
+                            <label class="btn btn-danger btn-xs active toggle-off">Off</label>
+                            <span class="toggle-handle btn btn-default btn-xs"></span>
+                        </div>
+                    </div>
+                    {% else %}
+                        <input id="{{ key }}" name="{{ key }}" class="form-control" value="{{ el.value }}" type="number">
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="form-group buttons-row">
+            <div class="col-sm-11 col-sm-offset-1 to_left">
+                <button class="btn btn-green btn-lg btn-primary">Сохранить</button>
+            </div>
+        </div>
+
+    </form>
+    <style>
+        .form-control {
+            width: 88%;
+        }
+
+        .discount-status {
+            vertical-align: top !important;
+            padding-top: 0 !important;
+        }
+
+        .btn-green {
+            /*background: lightgreen;*/
+        }
+
+        .to_left {
+
+        }
+    </style>
+{% endblock main %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $('#status').on('click', function(e) {
+            $(this).toggleClass('btn-success off btn-danger');
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "mail/mail_layout.html.twig" %}
+{% block content %}
+    <table width="100%" class="main-container" style="max-width: 600px; margin: 0 auto;">
+        <tr>
+            <td style="width: 600px; height: 800px;">
+                <table class="container" cellspacing="0" cellpadding="0" style="background: #F0F0F0">
+                    <tr class="header" style="background: #F0F0F0">
+                        <td style="background: black; height: 100px; width: 100%; border-radius: 0 0 250px 0; -webkit-border-radius: 0 0 250px 0; padding-left: 35px;">
+                            <a href="http://28dney.ru">
+                                {#<img src="http://28dney.ru/assets/img/logo-light.svg" class="logo__img" alt="28 дней" title="28 дней">#}
+                                <img style="width: 50px; height: 50px;" src="{{ siteUrl ~ asset('assets/img/28-logo.png') }}" class="logo__img" alt="28 дней" title="28 дней">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="main" style="color: #30363E; height: 500px; text-align: center;">
+                        <td style="padding: 0 60px;">
+
+                            <img src="http://28dney.ru/assets/img/hand.png">
+                            <h2 style="font-family: 'Roboto Slab', sans-serif; font-weight: bold; color: black; font-size: 24px; color:  #040406; line-height: 1;">Оплата прошла успешно!</h2>
+                            <p style="margin-top: 30px; line-height: 1.38; color: #9B9B9B; font-weight: 500; font-size: 16px; font-family: Roboto, sans-serif;">Ваш курс изменен и обновлен на курс - {{ product.name }}</p>
+                            <p style="margin-top: 40px;"><a href="{{ url }}" style="border: 1px solid transparent;
+    color: #040404; background: #d9b680; padding: 16px 25px; border-radius: 4px;font-size: 14px; line-height: 1.57; color: #040406; font-weight: bold; text-transform: uppercase; text-decoration: none; font-family: Roboto, sans-serif;">Перейти на сайт</a></p>
+                            {#<p style="margin-top: 50px;"><a href="{{ pdfUrl }}" style="color: black; font-size: 14px; font-family: sans-serif; color:  #040406;">Скачать квитанцию об оплате</a></p>#}
+                        </td>
+
+                    </tr>
+                    <tr class="footer" style="background: #E6E6E6;">
+                        <td>
+                            <p style="font-size: 12px; line-height: 2; color:  #040406;  padding-left: 40px;" class="copyright-p">Вы получили это письмо, потому что зарегистрированы на сайте <a href="http://28dney.ru">28dney.ru</a>. Данное письмо не требует ответа. {{ companyPersonalInfo }}</p>
+                            <p style="padding-left: 40px;     margin-bottom: 0; padding-bottom: 40px; padding-right: 40px; line-height: 34px; height: 34px; overflow: hidden;"><a href="{{ confUrl }}" style="color: black; font-size: 14px; font-family: sans-serif; color:  #040406; line-height: 1.71;">Политика конфиденциальности</a>
+                                <a href="{{ facebookGroupUrl }}" style="float: right"><img src="{{ siteUrl ~ asset('assets/img/ico/fb_icon.png') }}"
+                                                                                           alt=""></a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

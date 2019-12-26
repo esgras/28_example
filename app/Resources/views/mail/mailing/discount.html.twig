@@ -1,0 +1,19 @@
+{% extends "mail/layouts/table_layout.html.twig" %}
+{% block main %}
+    <tr class="main" style="color: #30363E; background: #F0F0F0; text-align: center;">
+        <td style="padding: 0 40px;">
+            <img src="{{ siteUrl ~ asset('assets/img/hello-user.png') }}" class="" alt="" title="" style="display: block; width: 60px; height: 60px; margin: 60px auto 32px;">
+
+            <p style="margin-bottom: 24px; font-family: 'Roboto Slab', serif; font-size: 24px; line-height: 24px;">Приветствую тебя, дорогой друг!</p>
+
+            <p style="color: rgba(51, 51, 51, 0.5); font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 24px; text-align: center;">Как ты уже знаешь никогда не бывает подходящего времени для того что бы начать свою новую жизнь: всегда на горизонте есть какие то «важные» мероприятия – день рождения друга, свадьба сестры, 23 февраля, 8 марта…….. Но мы все таки решили сделать время подходящим</p>
+            <p style="color: rgba(51, 51, 51, 0.5); font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 24px; text-align: justify; margin-bottom: 0;">Специально для тебя мы запустили в продажу всего 50 пакетов со скидкой 50%</p>
+            <p style=" color: rgba(51, 51, 51, 0.5); font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 24px; text-align: center;">Совсем не обязательно отказываться от алкоголя на всю жизнь, просто надо пересмотреть свое отношение к нему.  Для этого надо всего лишь попробовать прожить 28 трезвых дней и ощутить все плюсы на себе.</p>
+            <p style=" color: rgba(51, 51, 51, 0.5); font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 24px; text-align: center;">Нет времени на раздумье, переходи по ссылке и начинай новую жизнь</p>
+
+            <p style="margin-top: 40px; margin-bottom: 40px; "><a href="{{ discountUrl }}" style="border: 1px solid transparent;
+    color: #040404; background: #d9b680; padding: 16px 25px; border-radius: 4px;font-size: 14px; line-height: 1.57; color: #040406; font-weight: bold; text-transform: uppercase; text-decoration: none; font-family: Roboto, sans-serif;">Использовать скидку</a></p>
+        </td>
+
+    </tr>
+{% endblock %}

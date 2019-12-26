@@ -1,0 +1,362 @@
+{% extends 'layouts/base.html.twig' %}
+{% set headerAdditionalClass = 'main' %}
+{% block stylesheets %}
+    {#{{ parent() }}#}
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style3.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style_content.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/homepage.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/payment_modal.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/additional.css') }}"/>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+{% endblock %}
+{#{% block header_menu %}#}
+    {#<div class="header-menu">#}
+
+        {#<div class="header-menu__nav">#}
+            {#<a href="#01" class="header-menu__nav-link">Как это работает</a>#}
+            {#<a href="{{ path('blog_index') }}" class="header-menu__nav-link">Блог</a>#}
+            {#<a href="#03" class="header-menu__nav-link">О нас</a>#}
+        {#</div>#}
+
+        {#{% if not app.user %}#}
+            {#<a href="#section-tariff" class="header-menu__link button-full">Принять вызов</a>#}
+            {#<a href="{{ path('login') }}"#}
+               {#class="header-menu__link button-transparent">Войти</a>#}
+        {#{% else %}#}
+            {#<div class="header-menu__nav">#}
+                {#<a href="{{ path('logout') }}" class="header-menu__nav-link">{{ app.user.name }} (выйти)</a>#}
+            {#</div>#}
+        {#{% endif %}#}
+    {#</div>#}
+{#{% endblock %}#}
+{% block header_content %}
+    <p class="header__text">Челлендж</p>
+    <p class="header__title">28 дней без алкоголя,
+        которые изменят твою жизнь</p>
+    {% if  landingPage and landingPage.visible %}
+        <a href="{{ path('landing', {slug: landingPage.slug }) }}"
+           class="header-menu__link button-full"
+           style="margin-top: 20px; display: inline-block;">Принять вызов</a>
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    <section class="section-result">
+        <div class="wrapper">
+            <div class="results">
+                {% include 'partial/flash_messages.html.twig' %}
+                <div class="results__head">
+                    <div class="three-secrets">
+                        <div class="three-secrets__title">
+                            <span class="title">7 причин</span><br>
+                            <span class="subtitle">изменить отношения с алкоголем прямо сейчас</span>
+                        </div>
+                        <form action="" method="post"
+                              class="three-secrets__form">
+                            {{ form_errors(form.email) }}<input type="email"
+                                                                name="{{ form.email.vars.full_name }}"
+                                                                id=""
+                                                                class="three-secrets__email"
+                                                                placeholder="mail"><!--
+                            -->
+                            <button type="submit" class="three-secrets__submit">
+                                Получить
+                            </button>
+                            {{ form_widget(form._token) }}
+                            {#<input type="submit" value="Получить сейчас"  class="three-secrets__submit">#}
+                        </form>
+                    </div>
+                    <p class="results__title">Результаты отказа от алкоголя</p>
+                    <p class="results__subtitle">Данные на основе опроса наших
+                        постоянных подписчиков.</p>
+                </div>
+
+                <div class="results__content">
+                    <div class="results__indicators">
+                        <div class="results__indicators-box">
+                            <img src="{{ asset('assets/img/ico/emoji_01.svg') }}"
+                                 class="results__indicators-ico" alt=""
+                                 title="">
+                            <p class="results__indicators-val" data-from="0"
+                               data-to="92">0</p>
+                            <p class="results__indicators-text">Почувствовали
+                                себя счастливее</p>
+                        </div>
+
+                        <div class="results__indicators-box">
+                            <img src="{{ asset('assets/img/ico/emoji_02.svg') }}"
+                                 class="results__indicators-ico" alt=""
+                                 title="">
+                            <p class="results__indicators-val" data-from="0"
+                               data-to="73">0</p>
+                            <p class="results__indicators-text">Улучшили свой
+                                ежедневный сон</p>
+                        </div>
+
+                        <div class="results__indicators-box">
+                            <img src="{{ asset('assets/img/ico/emoji_03.svg') }}"
+                                 class="results__indicators-ico" alt=""
+                                 title="">
+                            <p class="results__indicators-val" data-from="0"
+                               data-to="73">0</p>
+                            <p class="results__indicators-text">Улучшили свои
+                                физические данные</p>
+                        </div>
+
+                        <div class="results__indicators-box">
+                            <img src="{{ asset('assets/img/ico/emoji_04.svg') }}"
+                                 class="results__indicators-ico" alt=""
+                                 title="">
+                            <p class="results__indicators-val" data-from="0"
+                               data-to="74">0</p>
+                            <p class="results__indicators-text">Уменьшили
+                                тревожность</p>
+                        </div>
+                    </div>
+
+                    <div class="results__description">
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Уменьшается
+                                тревожность</p>
+                            <p class="results__description-text">Алкоголь - один
+                                из самых известных депрессантов, подавляющий в
+                                том числе тревогу… Подвох заключается в том, что
+                                на утро его действие проходит.</p>
+                        </div>
+
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Повышается
+                                продуктивность и мотивация</p>
+                            <p class="results__description-text">У вас будет
+                                гораздо больше сил, чтобы многое успеть и многое
+                                сделать, если ваш день начнется не с долгого
+                                хмурого похмельного пробуждения. Начните бизнес,
+                                напишите книгу. Начните работать над выполнением
+                                задач, которые вы отложили в долгий ящик.</p>
+                        </div>
+
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Вы будете
+                                выглядеть лучше, чем когда-либо</p>
+                            <p class="results__description-text">Очевидно, что
+                                действие токсинов, в первую очередь, отражается
+                                на состоянии вашей кожи. При отказе от алкоголя
+                                состояние кожи, как правило, улучшается
+                                настолько заметно, что многие из вашего
+                                окружения сразу обратят на это внимание</p>
+                        </div>
+
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Больше денег
+                                на вашем счете</p>
+                            <p class="results__description-text">Само собой
+                                разумеется, что деньги которые вы потратили бы
+                                на выпивку останутся при вас. Сэкономленных
+                                денег с
+                                лихвой хватит на то, чтобы каждый год всей
+                                семьей ездить в отпуск. Или же отложить эти
+                                деньги на черный день и перестать о беспокоиться
+                                о том,
+                                что он может наступить.</p>
+                        </div>
+
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Легче
+                                привести себя в форму</p>
+                            <p class="results__description-text">Не важно, как
+                                много вы тренируетесь в спортивном зале в
+                                течение недели - один пивной вечер с крылышками
+                                в соусе
+                                “блю чиз” может перечеркнуть все результаты
+                                вашего труда. Перестаньте есть лишнее и
+                                килограммы начнут уходить от вас сами. Вы и сами
+                                не
+                                заметите, как станете стройнее и
+                                работоспособнее.</p>
+                        </div>
+
+                        <div class="results__description-box">
+                            <p class="results__description-caption">Улучшается
+                                сон</p>
+                            <p class="results__description-text">Если
+                                полноценный сон зарядит вас энергией, то вы
+                                сможете утром буквально выпрыгнуть выскочить из
+                                кровати на
+                                встречу любым испытаниям, которые вам готовит
+                                день, как Рокки Бальбоа в известном фильме.
+                                Только представьте.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-reviews border-radius-b-l">
+        <div class="wrapper">
+            <div class="reviews">
+                <div class="reviews__head">
+                    <p class="reviews__title">Отзывы принявших вызов</p>
+                    <p class="reviews__subtitle">Впечатления и полезные советы
+                        наших подписчиков по программе «28 дней»</p>
+
+                    <div class="slider-nav"></div>
+                </div>
+
+                <div class="reviews__content slick-slider">
+
+                    {% for feedback in feedbacks %}
+                        <div class="reviews__card">
+
+                            {% if feedback.imageFile %}
+                                <img src="{{ asset(imageHelper.imageLink(feedback, 'normal')) }}"
+                                     class="reviews__photo" alt="" title="">
+                            {% elseif feedback.hasLinkPreview() %}
+                                <img src="{{ feedback.linkPreview }}"
+                                     class="reviews__photo" alt="" title="">
+                            {% endif %}
+                            <a href="{{ feedback.link }}"
+                               data-fancybox="images">
+                                <button class="reviews__play"></button>
+                            </a>
+
+                            <div class="reviews__card-info">
+                                <p class="reviews__card-name">{{ feedback.authorName }}</p>
+                                <p class="reviews__card-text">{{ feedback.text }}</p>
+                                <time class="reviews__card-time">{{ feedback.timeText }}
+                                    мин
+                                </time>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-faq">
+        <div class="wrapper">
+            <div class="faq">
+                <div class="faq__head">
+                    <p class="faq__title">Частые вопросы</p>
+
+                    <div class="slider-nav"></div>
+                </div>
+
+                <div class="faq__content slick-slider">
+                    {% for commonQuestion in commonQuestions %}
+                        <div class="faq__box">
+                            <div class="faq__caption">{{ commonQuestion.title }}
+                            </div>
+                            {#<div class="faq__text">{{ commonQuestion.text }}#}
+                            <div class="faq__text">
+                                <div class="faq__text__all">{{ commonQuestion.previewText }}</div>
+                                {% if commonQuestion.showMoreText %}
+                                    <div style="text-align: right">
+                                        <a class="more-button">Показать все
+                                        </a>
+                                        <span class="last-text hidden">{{ commonQuestion.lastText }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {#{% if not app.user %}#}
+    <section class="section-tariff" id="section-tariff">
+        <div class="wrapper">
+            <div class="tariff">
+                <div class="tariff__head">
+                    <p class="tariff__title">Стоимость курса</p>
+                    <p class="tariff__subtitle-description">После оплаты
+                        курса вы получаете
+                        доступ к личному кабинету</p>
+                </div>
+
+                <div class="tariff__content">
+                    {% for product in products %}
+                        <div class="tariff__box {% if not product.isProductActive() %}tariff__box_disabled{% endif %}">
+                            <div class="tariff__box-top">
+                                <p class="tariff__caption">{{ product.name }}</p>
+                                <p class="tariff__text">{{ product.text|nl2br }}</p>
+                            </div>
+                            <p class="tariff__price">
+                                <strong>{{ product.getPriceText(discount) }}</strong>
+                            </p>
+                            {% set url = product.isProductActive() ?  path('order_main', {id: product.id})  : '#' %}
+                            <a href="{{ url }}" data-id="{{ product.id }}"
+                               data-title="{{ product.name }}"
+                               class="tariff__button {% if not product.isProductActive() %}disabled-button{% endif %}">выбрать</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {#{% endif %}#}
+    {% if not app.user %}
+        {% include 'partial/payment_modal.html.twig' %}
+    {% else %}
+        {% include 'partial/modals/payment_modal_for_register.html.twig' %}
+    {% endif %}
+
+    {{ render(controller('AppBundle:Widgets\\Blog:index')) }}
+{% endblock %}
+{#{% block footer_top %}#}
+    {#{% include 'partial/footer_flash_messages.html.twig' %}#}
+    {#{% if showSubscribeForm %}#}
+        {#{{ form_start(form, {attr: {class: 'subscription'}}) }}#}
+        {#{{ form_errors(form.email) }}#}
+        {#<label for="subscribe_email" class="subscription__label">#}
+            {#{{ form_widget(form.email, {attr: {class: 'subscription__input', placeholder: 'Mail'}}) }}#}
+            {#<button type="submit" class="subscription__button button-full">#}
+                {#узнать подробнее о челендже#}
+                {#<span class="icon-mail-envelope-closed"></span>#}
+            {#</button>#}
+        {#</label>#}
+        {#{{ form_end(form) }}#}
+    {#{% else %}#}
+        {#<p class="subscribe__exists">Подписка оформлена</p>#}
+    {#{% endif %}#}
+{#{% endblock %}#}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript"
+            src="{{ asset('assets/js/components/slick.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('assets/js/components/jquery.spincrement.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script type="text/javascript"
+            src="{{ asset('assets/js/homepage_custom.js') }}"></script>
+    <script>
+        let yId = 52846003;
+        $('.three-secrets__form').on('submit', function (e) {
+            ym(yId, 'reachGoal', 'email');
+        });
+
+        let analiticsData = {
+            1: {'g_price': 2990, 'g_label': 'buy28', 'y_label': '28dney'},
+            2: {'g_price': 6990, 'g_label': 'buy90', 'y_label': '90dney'},
+            3: {'g_price': 14990, 'g_label': 'buy365', 'y_label': '365dney'},
+        }
+
+        let paymentButtonSelector = '.tariff__button';
+        let defaultPaymentUrl = "{{ path('order_main', {id: 1}) }}";
+
+        let userId = + {{ app.user ? app.user.id : 0 }};
+        let userEmail = "{{ app.user ? app.user.email : '' }}";
+    </script>
+    <script src="{{ asset('assets/js/payment_modal.js') }}"></script>
+{% endblock %}

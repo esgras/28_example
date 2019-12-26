@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html.twig' %}
+{#{% set contentAdditionalClass = 'paddingFromTop' %}#}
+{% block stylesheets %}
+    {#<link rel="stylesheet" type="text/css"#}
+    {#href="{{ asset('assets/css/style_blog.css') }}"/>#}
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style3.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style_content.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/blog.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/additional.css') }}">
+{% endblock %}
+{% block title %}{{ day.title }}{% endblock %}
+{% block header %}
+    <!-- HEADER -->
+    <header class="header sticky">
+        <div class="wrapper">
+            <div class="header__content blog-title">
+                <a href="{{ backUrl }}" class="header__link-back"><i
+                            class="icon-left-arrow"></i></a>
+
+                <p class="header__title">
+                    <span>День {{ day.number }}</span>
+                    {{ day.title }}
+                </p>
+            </div>
+        </div>
+    </header>
+    <!-- HEADER END -->
+{% endblock %}
+{% block content %}
+    <section class="section-article">
+        <div class="wrapper">
+            {#{% do app.session.flashbag.add('key', 'cool') %}#}
+            <div class="article">
+                <div class="article__video">
+                    {% if day.hasVideo %}
+                    <video width="320" height="240" controls id="video" poster="{{ asset(imageHelper.imageLink(day)) }}" class="video">
+                        <source src="{{ videoHelper.videoLink(day) }}" type="video/mp4">
+                    </video>
+                        {% else %}
+                            <img src="{{ asset(imageHelper.imageLink(day)) }}" alt="" class="video">
+                            {% endif %}
+                </div>
+
+                <div class="article__content">
+                    <p>{{ day.text|raw }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,8 @@
+Email is required: E-mail обязателеное поле
+You must agree to terms: Вы должны согласиться с условиями
+Password not matching: Пароли не совпадают
+This value is too short. Min length is {{ limit }} characters: Минимальное количество {{ limit }} символов.
+Password should have 1 letter and 1 digit: Пароль должен иметь 1 символ и 1 цифру
+Email "{{ string }}" doesn't exist: E-mail "{{ string }}" не существует
+Email {{ value }} is already in use: E-mail {{ value }} уже используется
+video.not_exists: Видео не существует

@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/blog.css') }}">
+{% endblock %}
+{% block title %}{{ companyPage.title }}{% endblock %}
+    {% block header_content %}
+        <p class="header__title company-page__title">{{ companyPage.title }}</p>
+    {% endblock %}
+{% block content %}
+    <section>
+        <div class="wrapper" style="padding-top: 35px;">
+            {{ companyPage.text|raw }}
+        </div>
+    </section>
+{% endblock %}

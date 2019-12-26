@@ -1,0 +1,98 @@
+{% extends 'layouts/blank.html.twig' %}
+{% block content %}
+    <main class="content">
+        <section class="section-pay">
+            <form class="payment" method="post">
+                <h2>{{ product.name }}</h2>
+
+                <p class="payment__text">После оплаты на вашу почту придет
+                    ссылка с доступом к курсу, необходимо будет перейти по
+                    ссылки и пройти процедуру регистрации в личном кабинете.</p>
+
+                <div class="payment__form">
+                    <div class="payment__field-wrap">
+                        <label for="payment_email" class="payment__label">
+                            {% set emailVal = form.email.vars.value %}
+                            <input type="email" id="payment_email"
+                                   class="payment__input input-js{% if emailVal %} filled{% endif %}"
+                                   name="{{ form.email.vars.full_name }}"
+                                   value="{{ emailVal }}" >
+                            {#{{ form_widget(form.email, {attr: {class: 'payment__input input-js'}}) }}#}
+                            <span class="payment__input-placeholder custom-placeholder">Введите почту</span>
+                        </label>
+                        {{ form_errors(form.email) }}
+                        {% if errorMessage %}
+                        <span class="invalid-feedback d-block">
+                            <span class="d-block">
+                            <span class="form-error-icon badge badge-danger text-uppercase">Ошибка</span>
+                            <span class="form-error-message">{{ errorMessage }}</span>
+                </span>
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    {#<label for="send_receipt" class="payment__label check-wrap">#}
+                        {#{% set sendCheckVal = form.sendCheck.vars.data %}#}
+                        {#<input type="checkbox" id="send_receipt"#}
+                               {#{% if sendCheckVal %}checked{% endif %}#}
+                               {#name="{{ form.sendCheck.vars.full_name }}">#}
+                        {#<span class="custom-check"></span>#}
+                        {#<span class="check-text">Отправить на почту квитанцию об оплате</span>#}
+                    {#</label>#}
+
+                    <label for="check_agreement"
+                           class="payment__label check-wrap">
+                        {% set acceptVal = form.accept.vars.data %}
+                        <input type="checkbox"
+                               {% if acceptVal %}checked{% endif %}
+                               id="check_agreement"
+                               name="{{ form.accept.vars.full_name }}" value="1">
+                        {#{{ form_widget(form.accept) }}#}
+                        <span class="custom-check"></span>
+                        <span class="check-text">Я принимаю условия Пользовательского соглашения и даю своё согласие сервису «28 дней» на обработку моей персональной информации на условиях, определенных Политикой конфиденциальности.</span>
+                    </label>
+                    {{ form_errors(form.accept) }}
+                    <div>
+                        <input type="submit" value="оплатить"
+                               class="payment__submit button-full">
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $(window).load(function () {
+            let analiticsData = {
+                1: {'g_price': 2990, 'g_label':  'buy28', 'y_label': '28dney'},
+                2: {'g_price': 6990, 'g_label':  'buy90', 'y_label': '90dney'},
+                3: {'g_price': 14990, 'g_label':  'buy365', 'y_label': '365dney'},
+            }
+
+            $('form').on('submit', function(e) {
+                if ($('input[name="order[accept]"]:checked').val()) {
+                    let data = analiticsData[{{ product.id }}];
+
+                    ym(52845547, 'reachGoal', data['y_label']);
+                    ga('send', 'event', data['g_label'], 'pay', data['g_price']);
+                }
+
+                return true;
+            });
+
+
+            $('.payment__input').on('input', function (e) {
+                let val = $(this).val();
+
+                if (!val.length) {
+                    $(this).removeClass('filled');
+                } else {
+                    $(this).addClass('filled');
+                }
+            });
+        });
+    </script>
+{% endblock %}

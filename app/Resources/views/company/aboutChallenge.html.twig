@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/about_challenge.css') }}">
+{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% set notShowHeaderContent = true %}
+{% set headerMenuNavClass = 'link-underline' %}
+{#{% block header_content %}#}
+{#{% endblock %}#}
+{% block content %}
+    <section>
+        <div class="wrapper">
+            <div class="about-challenge">
+                <div>
+                    <img src="{{ asset('assets/img/hello-user.png') }}" class="about-challange__img"
+                         alt="" title="" style="">
+                </div>
+                <p class="about-challenge__title">Здравствуй, дорогой друг!</p>
+                <p class="about-challenge__text">
+                    Поздравляем тебя - ты сделал первый шаг к новой версии себя!
+                    Наш челлендж направлен на изменение твоих отношений с
+                    алкоголем, осознании радости и полноты жизни и без алкоголя.
+                    Ты сможешь выглядеть лучше и моложе, быстрее достичь
+                    поставленных карьерных целей, улучшить взаимоотношения с
+                    близкими тебе людьми. Посмотри это короткое видео
+                </p>
+                {% if page.youtubeLink %}
+                    <iframe src="{{ page.youtubeLink }}" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen class="about-challenge__iframe"></iframe>
+                {% elseif page.imageFile %}
+                    <div class="about-challange_img_container">
+                        <img src="{{ asset(imageHelper.imageLink(page)) }}" alt=""  class="about-challenge__iframe">
+                    </div>
+                {% else %}
+                    <div class="about-challange_img_container">
+                        <img src="{{ asset('assets/img/blog-article01.png') }}" alt=""  class="about-challenge__iframe">
+                    </div>
+                {% endif %}
+                <p class="about-challenge__text">Желаем тебе больших побед! С
+                    Уважением, команда 28 дней.</p>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,304 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/account.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
+{% endblock %}
+{% block header_menu %}
+    <a href="{{ path('homepage') }}#section-tariff" class="header-menu__link button-full account-visible-smallest">Принять вызов</a>
+    <div class="header-menu header-menu_inside">
+
+
+        <div class="header-menu__nav">
+            <a href="{{ path('homepage') }}#section-tariff" class="header-menu__link button-full account-visible-middle">Принять вызов</a>
+            <a href="{{ facebookGroupUrl }}" class="header-menu__nav-link"
+               target="_blank"><span class="icon-facebook"></span>facebook</a>
+        </div>
+
+        <div class="header-menu__authorized">
+            <p class="header-menu__auth-user auth-list"><span
+                        class="icon-person"></span>{{ app.user.name }}</p>
+
+            <ul class="header-menu__auth-menu">
+
+                <li class="header-menu__auth-menu-item"><a
+                            href="{{ path('account_day_list') }}"
+                            class="header-menu__auth-menu-link">Мои данные</a>
+                </li>
+
+                <li class="header-menu__auth-menu-item"><a
+                            href="{{ path('logout') }}"
+                            class="header-menu__auth-menu-link">Выход</a></li>
+            </ul>
+        </div>
+        
+    </div>
+{% endblock %}
+{% block header_content %}
+    <p class="header__title">Мой прогресс</p>
+    {% set dn = app.user.dayNumber > daysCount ? daysCount : app.user.dayNumber %}
+    <p class="header__text days-finished">Пройдено {{ dn }}
+        д{{ ['ень','ня','ней']|plural(dn) }}
+        из {{ days|length }}</p>
+
+    <div id="progressbar"></div>
+    {#{% set active = app.user.dayNumber >= loop.index ? 'active' : '' %}#}
+    {#<a href="#1" class="progress-slider__box active">#}
+    {#{% set url = active ? path('account_day', {id: day.id}) : '#' %}#}
+    {#{% set url = '' %}#}
+    {#<a href="{{ url }}" class="progress-slider__box {{ active }}">#}
+    {#<span class="progress-slider__ico"></span>#}
+    {#<p class="progress-slider__number">{{ loop.index }}</p>#}
+    {#<span class="progress-slider__text">день</span>#}
+    {#</a>#}
+
+    <div class="progress-calendar">
+        {% for day in days %}
+            {% set active = app.user.dayNumber >= loop.index ? 'active' : '' %}
+            <div class="progress-calendar__box {{ active }}"><p
+                        class="progress-calendar__day">{{ loop.index }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {#<div class="progress-slider">#}
+    {#{% for day in days %}#}
+    {#{% set active = app.user.dayNumber >= loop.index ? 'active' : '' %}#}
+    {#<a href="#1" class="progress-slider__box active">#}
+    {#{% set url = active ? path('account_day', {id: day.id}) : '#' %}#}
+    {#{% set url = '' %}#}
+    {#<a href="{{ url }}" class="progress-slider__box {{ active }}">#}
+    {#<span class="progress-slider__ico"></span>#}
+    {#<p class="progress-slider__number">{{ loop.index }}</p>#}
+    {#<span class="progress-slider__text">день</span>#}
+    {#</a>#}
+    {#{% endfor %}#}
+    {#</div>#}
+{% endblock %}
+{% block content %}
+    <section class="section-account">
+        <div class="wrapper">
+            <div class="account">
+                <div class="account__accordion-list">
+                    {% for week in 1..weeksPerPage %}
+                        {% if week + startWeek <= weeksCount %}
+                            {% set weekDays = currentDays[(week - 1) * daysInWeek : daysInWeek] %}
+                            {% set weekExists = is_granted_for_collection(view_rule, weekDays) %}
+
+                            <div class="account__accordion-item">
+                                <p class="account__accordion-item-caption">{{ startWeek + week }}
+                                    неделя
+                                    {% if weekExists %}
+                                        <span class="account__accordion-item-trigger"></span>
+                                    {% endif %}
+                                </p>
+
+                                {% if weekExists %}
+                                    <div class="account__accordion-content">
+                                        {% for day in weekDays %}
+                                            {% if is_granted(view_rule, day) %}
+                                                <a href="{{ path('account_day', {id: day.id}) }}"
+                                                   class="account__accordion-content-item">
+                                                    <span class="account__accordion-content-item-caption">День {{ day.number }}</span>
+                                                    <p class="account__accordion-content-item-text">{{ day.title }}</p>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+            {{ knp_pagination_render(daysForPagination) }}
+            <div class="invite-friend">
+                {#{% if not email %}#}
+                    <div class="invite-friend__description">
+                        <p class="invite-friend__caption">Пригласи друга</p>
+                        <span class="invite-friend__text">Вместе веселее, а еще мы подарим скидку -10% на следующий курс тебе и твоему другу.</span>
+                    </div>
+
+
+                    {#{{ form_start(form, {attr: {class: 'invite-friend__form'}}) }}#}
+                    {#{{ form_start(form, {attr: {class: 'invite-friend__form'}}) }}#}
+                    <form action="" method="post" class="invite-friend__form">
+                        {{ form_errors(form.email) }}
+                        {% set emailVal = form.email.vars.value %}
+                        {% set emailHasError = form.email.vars.errors | length %}
+                        {% if email %}
+                            <span class="invalid-feedback d-block success"><span class="" style="display: flex">
+                                    <span class="form-error-icon badge badge-success text-uppercase">Успех</span> <span style="margin-left: 5px;">Пользователь {{ email }} получил приглашение.</span>
+                                </span>
+                            </span>
+                        {% endif %}
+                        <label for="{{ form.email.vars.id }}"
+                               class="invite-friend__label">
+                            <input type="email" id="{{ form.email.vars.id }}"
+                                   class="invite-friend__input input-js {% if emailVal %}filled{% endif %}"
+                                   name="{{ form.email.vars.full_name }}"
+                                   value="{{ emailVal }}">
+                            {#{{ form_widget(form.email, {attr: {class: 'invite-friend__input#}
+                            {#input-js'}}) }}#}
+                            <span class="custom-placeholder {% if emailHasError %}move-to-top{% endif %}">Введите почту друга</span>
+                        </label>
+
+                        <input type="submit"
+                               class="invite-friend__submit button-full"
+                               value="Пригласить">
+                        {#{{ form_end(form) }}#}
+                    </form>
+                {#{% else %}#}
+                    {#<div class="invite-friend__description full-width">#}
+                        {#<p class="invite-friend__caption">#}
+                            {#Пользователь {{ email }} получил приглашение.</p>#}
+                    {#</div>#}
+                {#{% endif %}#}
+
+                {#<form action="{{ path('invite_friend') }}" method="post" class="invite-friend__form">#}
+                {#<label for="invite_friend_email" class="invite-friend__label">#}
+                {#<input type="email" id="invite_friend_email" class="invite-friend__input input-js">#}
+                {#<span class="custom-placeholder">Введите почту друга</span>#}
+                {#</label>#}
+
+                {#<input type="button" class="invite-friend__submit button-full" value="Пригласить">#}
+                {#</form>#}
+            </div>
+        </div>
+    </section>
+    {#{{ render(controller('AppBundle:Widgets\\Blog:index')) }}#}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('assets/js/components/slick.js') }}"></script>
+    <script>
+        $(function () {
+//            $( function() {
+//                var progress_max = $('.progress-calendar__box:not(".slick-cloned")').length,
+//                    progress_val = $('.progress-calendar__box.active:not(".slick-cloned")').length;
+//
+//                $( "#progressbar" ).progressbar({
+//                    max: progress_max,
+//                    value: progress_val
+//                });
+//
+//                $('.header__text').text('Пройдено ' + progress_val + ' день из ' + progress_max);
+//
+//            });
+
+            $('.progress-slider').slick({
+                infinity: false,
+                slidesToShow: 7,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 5
+                        }
+                    },
+                    {
+                        breakpoint: 769,
+                        settings: {
+                            arrows: false,
+                            slidesToShow: 5
+                        }
+                    },
+                    {
+                        breakpoint: 601,
+                        settings: {
+                            arrows: false,
+                            slidesToShow: 4
+                        }
+                    },
+                    {
+                        breakpoint: 481,
+                        settings: {
+                            arrows: false,
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 481,
+                        settings: {
+                            arrows: false,
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 376,
+                        settings: {
+                            arrows: false,
+                            slidesToShow: 2
+                        }
+                    }
+                ]
+            });
+
+            $('.account__accordion-item-trigger').on('click', function () {
+                $(this).parent().toggleClass('active').next().slideToggle(350);
+            });
+        });
+
+        if ($('.slick-slider').length) {
+            $('.slick-slider').each(function () {
+                $(this).slick({
+                    appendArrows: $(this).closest('section').find('.slider-nav'),
+                    dots: false,
+                    infinite: true,
+                    speed: 300,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    variableWidth: true,
+                    responsive: [
+                        {
+                            breakpoint: 1025,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 1
+                            }
+                        },
+                        {
+                            breakpoint: 769,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 1
+                            }
+                        },
+                        {
+                            breakpoint: 481,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                centerMode: true
+                            }
+                        }
+                    ]
+                });
+            });
+        }
+
+        $(function () {
+            var progress_max = $('.progress-calendar__box').length,
+                progress_val = $('.progress-calendar__box.active').length;
+
+            $("#progressbar").progressbar({
+                max: progress_max,
+                value: progress_val
+            });
+        });
+
+        $('.invite-friend__input').on('input', function (e) {
+            let val = $(this).val();
+
+            if (!val.length) {
+                $(this).removeClass('filled');
+            } else {
+                $(this).addClass('filled');
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {#<link rel="stylesheet" type="text/css"#}
+          {#href="{{ asset('assets/css/style_blog.css') }}"/>#}
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style3.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('assets/css/style_content.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/blog.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/additional.css') }}">
+{% endblock %}
+{% block title %}Блог || {{ post.title }}{% endblock %}
+{% set notShowHeaderContent = false %}
+{% block content %}
+    <section class="section-article-head">
+        <div class="wrapper">
+            <div class="header__content">
+                <a href="{{ path('blog_index') }}" class="header__link-back"><i class="icon-left-arrow"></i></a>
+
+                <p class="header__title">{{ post.title }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="section-article">
+        <div class="wrapper">
+            <div class="article">
+                {#<img src="{{ asset(imageHelper.imageLink(post)) }}" class="article__img" alt="" title="">#}
+
+                <div class="article__content">
+                    {{ post.text|raw }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        /**
+         * Auto Placement Items
+         * @param itemsWrap - items parent
+         * @param columns - number of column items
+         */
+        function ap(itemsWrap, columns) {
+            var containerInnerSize = itemsWrap.width(),
+                placementItems = itemsWrap.children(),
+                marginDefault = placementItems.filter(':first-child').css('margin-bottom'),
+                itemsNotMargin = placementItems.filter(':nth-child(' + columns + 'n + ' + columns + ')'),
+                placementItemsSize = placementItems.innerWidth(),
+                result = containerInnerSize - placementItemsSize * columns,
+                itemsQuantity = placementItems.length,
+                lastItemsQuantity = (itemsQuantity - columns);
+
+            placementItems
+                .css({
+                    'margin-right': Math.floor(result / (columns - 1)),
+                    'margin-bottom': marginDefault
+                })
+                .slice(lastItemsQuantity)
+                .css({'margin-bottom': 0});
+
+            itemsNotMargin.css({'margin-right': 0});
+        }
+
+        /* init ap function */
+        var $initElement = $('.autoplacement-js');
+
+        $(window).on('load resize', function () {
+            if ($(window).innerWidth() > 991) {
+                    ap($initElement, 4);
+            } else if ($(window).innerWidth() <= 991 && $(window).innerWidth() > 768) {
+                ap($initElement, 3);
+            } else if ($(window).innerWidth() <= 768 && $(window).innerWidth() > 480) {
+                ap($initElement, 2);
+            } else if ($(window).innerWidth() <= 480 && $(window).innerWidth() > 0) {
+                ap($initElement, 1);
+            }
+            /*if ($(window).innerWidth() > 640) {
+                ap($initElement, 4);
+            } else if ($(window).innerWidth() <= 640 && $(window).innerWidth() > 480) {
+                ap($initElement, 3);
+            }*/
+
+//            if ($('.sticky').length) {
+//                $('.header.sticky + .content').css('padding-top', $('.header.sticky').height());
+//            }
+        });
+    </script>
+{% endblock %}

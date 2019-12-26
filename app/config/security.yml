@@ -1,0 +1,48 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    hide_user_not_found: false
+    encoders:
+          AppBundle\Entity\User: bcrypt
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_USER
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        in_db:
+            entity:
+              class: AppBundle\Entity\User
+              property: email
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            form_login:
+                login_path: /auth/login
+                check_path: /auth/login
+                success_handler: app.security.authentication_handler
+                failure_handler: app.security.authentication_handler
+            logout:
+                path: /auth/logout
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+    access_control:
+      - { path: ^/dashboard, role: ROLE_SUPER_ADMIN }
+      - { path: ^/account, role: ROLE_USER }
+      - { path: ^/efconnect, role: ROLE_SUPER_ADMIN }
+      - { path: ^/elfinder, role: ROLE_SUPER_ADMIN }

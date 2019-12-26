@@ -1,0 +1,15 @@
+{% extends '@views/layouts/blank.html.twig' %}
+{% block title %}{{ status_text|trans }}{% endblock %}
+{% block content %}
+    <main class="content">
+        <section class="section-mail-confirm">
+            <div class="mail-confirm">
+                <p class="mail-confirm__title" style="color: red;">{{ status_code }}</p>
+                    <div class="mail-confirm__content">
+                        <p class="mail-confirm__text">{{ status_text|trans }}</p>
+
+                    </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

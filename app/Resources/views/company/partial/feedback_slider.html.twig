@@ -1,0 +1,38 @@
+<h3>Feedback slider</h3>
+<div class="slick-slider">
+{% for feedback in feedbacks %}
+    <div class="row">
+        <div class="col-sm-4">
+            <p>{{ feedback.authorName }}</p>
+            <p>{{ feedback.timeText }} МИН</p>
+            <a href="{{ feedback.link }}" class="feedback-preview"><img src="{{ feedback.linkPreview }}" alt="">
+            </a>
+        </div>
+    {#<iframe src="{{ feedback.link }}" frameborder="0" allow="autoplay;#}
+     {#encrypted-media" allowfullscreen class="dance-video"></iframe>#}
+        {#</div>#}
+    </div>
+{% endfor %}
+</div>
+        <p style="height: 50px; width: 100%;"></p>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+<style>
+    .feedback-preview img {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+<script>
+    $('a.feedback-preview').fancybox({
+        'transitionIn': 'elastic',
+        'transitionOut': 'elastic',
+        'speedIn': 400,
+        'speedOut': 200,
+        'overlayShow': false
+    });
+
+
+</script>

@@ -1,0 +1,29 @@
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/AdminController.php"
+    type:     annotation
+feedback_delete_image:
+    path: /feedback-delete-image/{id}
+    defaults: {_controller: 'AppBundle\Admin\Controller\FeedbackController::deleteImageAction'}
+    requirements:
+      id: \d+
+products_day_list:
+    path: /products-day-list
+    defaults: {_controller: 'AppBundle\Admin\Controller\DayController::productsListAction'}
+about_challenge_edit:
+    path: /about-challenge
+    defaults: {_controller: 'AppBundle\Admin\Controller\DayController::aboutChallengeAction'}
+landing_page:
+    path: /landing-page/{id}
+    defaults: {_controller: 'AppBundle\Admin\Controller\LandingPageController::previewAction'}
+day_delete_video:
+    path: /day/delete-video/{id}
+    defaults: {_controller: 'AppBundle\Admin\Controller\DayController::deleteVideoAction'}
+    requirements:
+          id: \d+
+    methods: POST
+dashboard_settings_main:
+  path: /payment-settings
+  defaults: {_controller: 'AppBundle\Admin\Controller\SettingsController::mainAction'}
+dashboard_settings_discount_mail:
+  path: /discount-mail-settings
+  defaults: {_controller: 'AppBundle\Admin\Controller\SettingsController::discountMailAction'}

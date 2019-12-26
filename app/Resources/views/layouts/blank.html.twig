@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+    <title>{% block title %}Оплата{% endblock %}</title>
+    {% block stylesheets %}
+        {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_blank.css') }}"/>#}
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style3.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_content.css') }}"/>
+    {% endblock %}
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1890673634393800');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=1890673634393800&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body class="loaded">
+<!-- Rating@Mail.ru counter -->
+<script type="text/javascript">
+    var _tmr = window._tmr || (window._tmr = []);
+    _tmr.push({id: "3080906", type: "pageView", start: (new Date()).getTime(), pid: "USER_ID"});
+    (function (d, w, id) {
+        if (d.getElementById(id)) return;
+        var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+        ts.src = "https://top-fwz1.mail.ru/js/code.js";
+        var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+        if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+    })(document, window, "topmailru-code");
+</script><noscript><div>
+        <img src="https://top-fwz1.mail.ru/counter?id=3080906;js=na" style="border:0;position:absolute;left:-9999px;" alt="Top.Mail.Ru" />
+    </div></noscript>
+<!-- //Rating@Mail.ru counter -->
+
+<!-- Rating@Mail.ru counter dynamic remarketing appendix -->
+<script type="text/javascript">
+    var _tmr = _tmr || [];
+    _tmr.push({
+        type: 'itemView',
+        productid: 'VALUE',
+        pagetype: 'VALUE',
+        list: 'VALUE',
+        totalvalue: 'VALUE'
+    });
+</script>
+{#<!-- // Rating@Mail.ru counter dynamic remarketing appendix -->#}
+<img src="https://top-fwz1.mail.ru/tracker?id=3080906;e=RG%3A/trg-pixel-4765111-1549353079058;_={{random()}}" alt=""
+     style="display: none;">
+<!-- BODY -->
+<div class="main-wrapper">
+    <!-- CONTENT -->
+    {% block content %}
+
+    {% endblock %}
+    <!-- CONTENT END -->
+</div>
+
+<div class="icon-load"></div>
+<!-- BODY END   -->
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-3.0.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-migrate-1.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/components/slick.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
+{% endblock %}
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(52846003, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+    });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/52846003" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127172943-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127172943-1');
+</script>
+{#<!-- Facebook Pixel Code -->#}
+{#<script>#}
+    {#!function(f,b,e,v,n,t,s)#}
+    {#{if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+        {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};#}
+        {#if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';#}
+        {#n.queue=[];t=b.createElement(e);t.async=!0;#}
+        {#t.src=v;s=b.getElementsByTagName(e)[0];#}
+        {#s.parentNode.insertBefore(t,s)}(window, document,'script',#}
+        {#'https://connect.facebook.net/en_US/fbevents.js');#}
+    {#fbq('init', '252937838934358');#}
+    {#fbq('track', 'PageView');#}
+{#</script>#}
+{#<noscript><img height="1" width="1" style="display:none"#}
+               {#src="https://www.facebook.com/tr?id=252937838934358&ev=PageView&noscript=1"#}
+    {#/></noscript>#}
+{#<!-- End Facebook Pixel Code -->#}
+</body>
+</html>

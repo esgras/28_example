@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+    <title>28 дней || Вход</title>
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_login.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_login2.css') }}"/>#}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style3.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_content.css') }}"/>
+</head>
+<body class="loaded">
+<!-- BODY -->
+<div class="main-wrapper">
+    <!-- CONTENT -->
+    <main class="content">
+        <section class="section-login">
+            <div class="login-hint border-radius-b-r">
+                <a href="{{ path('homepage') }}" class="logo">
+                    <img src="{{ asset('assets/img/logo-light.svg') }}" class="logo__img" alt="28 дней" title="28 дней">
+                </a>
+
+                <div class="login-hint__slider">
+                    <div class="login-hint__box">
+                        <img src="{{ asset('assets/img/ico/slide-ico.svg') }}" class="login-hint__ico" alt="" title="">
+
+                        <p class="login-hint__caption">Следите за своим
+                            прогрессом</p>
+
+                        <p class="login-hint__text">Выполняйте задания каждый день и заполняйте свой прогресс новыми победами, делитесь своими достижениями с друзьями в социальных
+                            сетях.</p>
+                    </div>
+
+                    <div class="login-hint__box">
+                        <img src="{{ asset('assets/img/ico/slide-ico.svg') }}" class="login-hint__ico" alt="" title="">
+
+                        <p class="login-hint__caption">Заходи каждый
+                            день</p>
+
+                        <p class="login-hint__text">Выполняйте задания каждый день и заполняйте свой прогресс новыми победами, делитесь своими достижениями с друзьями в социальных
+                            сетях.</p>
+                    </div>
+
+                    <div class="login-hint__box">
+                        <img src="{{ asset('assets/img/ico/play-tube.svg') }}" class="login-hint__ico" alt="" title="">
+
+                        <p class="login-hint__caption">Смотри видео
+                            2 раза в день</p>
+
+                        <p class="login-hint__text">Выполняйте задания каждый день и заполняйте свой прогресс новыми победами, делитесь своими достижениями с друзьями в социальных
+                            сетях.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-wrapper">
+                <form action="" method="POST" name="" id="" class="login-form">
+                    <p class="login-form__title">Вход в кабинет</p>
+
+                    <div class="login-form__fields-wrap">
+                        <label for="" class="login-form__label">
+                            <input type="email" id="login_email" class="login-form__input border-radius-t input-js {% if lastUsername %}filled{% endif %}" name="_username" value="{{ lastUsername }}">
+                            <span class="login-form__input-placeholder custom-placeholder">Почта</span>
+                        </label>
+
+                        <label for="" class="login-form__label">
+                            <input type="password" id="login_pass" class="login-form__input border-radius-b input-js" name="_password">
+                            <span class="login-form__input-placeholder custom-placeholder">Пароль</span>
+                        </label>
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ error.message|trans }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <label for="login_remember" class="login-form__label check-wrap">
+                        <input type="checkbox" id="login_remember" class="login-form__checkbox" name="rememberMe">
+                        <span class=" custom-check"></span>
+                        <span class=" check-text">Запомнить меня</span>
+                    </label>
+
+                    <input type="submit" class="login-form__submit button-full" value="Войти" >
+
+                    <div class="login-form__links">
+                        <a href="{{ path('password_reset') }}" class="login-form__link">Забыли пароль?</a>
+                        {#<a href="#02" class="login-form__link">Я новый участник</a>#}
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <!-- CONTENT END -->
+</div>
+<div class="icon-load"></div>
+<!-- BODY END   -->
+
+<script type="text/javascript" src="{{ asset('assets/js/jquery-3.0.0.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery-migrate-1.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/components/slick.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
+<script>
+    $(window).load(function () {
+//        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+//            $('body').addClass('ios');
+//        } else {
+//            $('body').addClass('web');
+//        }
+//
+//        $('body').removeClass('loaded');
+
+        $('.login-hint__slider').slick({
+            arrows: false,
+            dots: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 5000
+        });
+
+        $('.login-form__input').on('input', function(e) {
+            let val = $(this).val();
+
+            if (!val.length) {
+                $(this).removeClass('filled');
+            } else {
+                $(this).addClass('filled');
+            }
+        });
+
+        setTimeout(function() {
+            $('input:-webkit-autofill').addClass('filled');
+        }, 600);
+
+    });
+
+
+</script>
+</body>
+</html>

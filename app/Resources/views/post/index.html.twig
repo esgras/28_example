@@ -1,0 +1,12 @@
+{% extends 'layouts/main.html.twig' %}
+{% block body %}
+    {% if posts|length %}
+        {% for post in posts %}
+            <p>
+                <a href="{{ path('blog_view', {id: post.id}) }}">{{ post.title }}</a>
+            </p>
+        {% endfor %}
+    {% else %}
+        <h1>There are no posts</h1>
+    {% endif %}
+{% endblock %}

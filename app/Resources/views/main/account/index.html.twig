@@ -1,0 +1,59 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/account.css') }}">
+{% endblock %}
+{% block content %}
+    <section class="section-account">
+        <div class="wrapper">
+            <div class="account-info">
+                <div class="account-info__title">Добро пожаловать, <span class="name">{{ user.name }}!</span></div>
+                <div class="row">
+                    <span class="label">Имя</span><!--
+                    --><span class="value">{{ user.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Город</span><!--
+                    --><span class="value">{{ user.city }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Возраст</span><!--
+                    --><span class="value">{{ user.age }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Пол</span><!--
+                    --><span class="value">{{ user.gender }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Сфера деятельности</span><!--
+                    --><span class="value">{{ user.scope }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Должность</span><!--
+                    --><span class="value">{{ user.position }}</span>
+                </div>
+                {#<div class="row">#}
+                {#<span class="label">Возраст</span>#}
+                {#<span class="value">{{ user.age }}</span>#}
+                {#</div>#}
+                <div class="row">
+                    <span class="label text-area">Ваша цель</span><!--
+                    --><span class="value text-area">
+                        {{ user.aim }}
+                        {#<textarea name="" id="" cols="30" style="resize: none; background: #F2F2F2;"#}
+                        {#rows="5" disabled="">{{ user.aim }}</textarea>#}
+                    </span>
+                </div>
+                <div class="row" style="clear: both;">
+                    <span class="label">Ваш курс</span><!--
+                    --><span class="value" style="color: black;">{{ user.product.name }}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Прогресс</span><!--
+                    {#<span class="value"  style="color: black;">{{ user.dayNumber }}/{{ user.product.days }} дней</span>#}
+                    --><span class="value"  style="color: black;">{{ user.dayNumber }}/28 дней</span>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

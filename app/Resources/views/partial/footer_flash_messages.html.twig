@@ -1,0 +1,10 @@
+{% for key, flashes in flashesAll %}
+    {% if key == 'footerMessage' %}
+        {% for flash in flashes %}
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flash }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endfor %}

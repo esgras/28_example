@@ -1,0 +1,114 @@
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% set _entity_config = easyadmin_entity(app.request.query.get('entity')) %}
+{% set _entity_id = attribute(entity, _entity_config.primary_key_field_name) %}
+{% trans_default_domain _entity_config.translation_domain %}
+{% set _trans_parameters = { '%entity_name%': _entity_config.name|trans, '%entity_label%': _entity_config.label|trans, '%entity_id%': _entity_id } %}
+
+{% extends _entity_config.templates.layout %}
+
+{% block body_id 'easyadmin-edit-' ~ _entity_config.name ~ '-' ~ _entity_id %}
+{% block body_class 'edit edit-' ~ _entity_config.name|lower %}
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+{% endblock %}
+
+{% block content_title %}
+    {% spaceless %}
+        {% set _default_title = 'edit.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
+        {{ _entity_config.edit.title is defined ? _entity_config.edit.title|trans(_trans_parameters) : _default_title }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form) }}
+        {{ form_row(form.authorName) }}
+        {{ form_row(form.text) }}
+        {{ form_row(form.link) }}
+
+        {% spaceless %}
+
+            {% if entity.imageFile %}
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <a href="{{ asset(imageHelper.imageLink(entity)) }}"><img src="{{ asset(imageHelper.imageLink(entity, 'small')) }}" alt=""></a>
+                        <a href="{{ path('feedback_delete_image', {id: entity.id}) }}" style="margin-left: 20px; font-size: 2em; color: red;" class="delete-image" title="Удалить изображение"><span class="fa fa-times"></span></a>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="form-group {% if form.image.vars.errors|length %}has-error{% endif %}">
+
+
+                {{ form_label(form.image) }}
+
+                <div class="{{ block('form_group_class') }}">
+                    {{ form_widget(form.image) }}
+                    <p class="col-sm-offset-2" style="margin-top: 10px;">Рекомендуемая высота не менее 450px</p>
+
+                    {{ form_errors(form.image) }}
+                </div>
+
+            </div>
+        {% endspaceless %}
+        {{ form_row(form.minutes) }}
+        {{ form_row(form.seconds) }}
+
+        {{ form_end(form) }}
+    {% endblock entity_form %}
+
+    {% block delete_form %}
+        {{ include('@EasyAdmin/default/includes/_delete_form.html.twig', {
+            view: 'edit',
+            referer: app.request.query.get('referer', ''),
+            delete_form: delete_form,
+            _translation_domain: _entity_config.translation_domain,
+            _trans_parameters: _trans_parameters,
+            _entity_config: _entity_config,
+        }, with_context = false) }}
+    {% endblock delete_form %}
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function() {
+            let modalCaptionSelector = '#modal-delete h4';
+            let deleteText = $(modalCaptionSelector).text();
+            let deleteImageText = 'Вы действительно хотите удалить это изображение?';
+
+            $('.edit-form').areYouSure({ 'message': '{{ 'form.are_you_sure'|trans({}, 'EasyAdminBundle')|e('js') }}' });
+
+            $('.form-actions').easyAdminSticky();
+
+
+
+            $('a.action-delete').on('click', function(e) {
+                e.preventDefault();
+                $(modalCaptionSelector).text(deleteText);
+
+                $('#modal-delete').modal({ backdrop: true, keyboard: true })
+                    .off('click', '#modal-delete-button')
+                    .on('click', '#modal-delete-button', function () {
+                        $('#delete-form').trigger('submit');
+                    });
+            });
+
+            $('a.delete-image').on('click', function(e) {
+                e.preventDefault();
+                $(modalCaptionSelector).text(deleteImageText);
+
+                $('#modal-delete').modal({ backdrop: true, keyboard: true })
+                    .off('click', '#modal-delete-button')
+                    .on('click', '#modal-delete-button', function () {
+                        window.location = $('a.delete-image').attr('href');
+                    });
+            });
+        });
+    </script>
+
+    {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+{% endblock %}

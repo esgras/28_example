@@ -1,0 +1,1020 @@
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% set _entity_config = easyadmin_entity(app.request.query.get('entity')) %}
+{% set _entity_id = attribute(entity, _entity_config.primary_key_field_name) %}
+{% trans_default_domain _entity_config.translation_domain %}
+{% set _trans_parameters = { '%entity_name%': _entity_config.name|trans, '%entity_label%': _entity_config.label|trans, '%entity_id%': _entity_id } %}
+
+{% extends _entity_config.templates.layout %}
+
+{% block body_id 'easyadmin-edit-' ~ _entity_config.name ~ '-' ~ _entity_id %}
+{% block body_class 'edit edit-' ~ _entity_config.name|lower %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content_title %}
+    {% spaceless %}
+        {% set _default_title = 'edit.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
+        {{ _entity_config.edit.title is defined ? _entity_config.edit.title|trans(_trans_parameters) : _default_title }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block content_header %}
+    <h1 class="title">Лендинг #{{ entity.id }} <a
+                href="{{ path('landing_page', {id: entity.id}) }}"
+                target="_blank" style="float: right;">Предпросмотр</a></h1>
+{% endblock content_header %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form, {attr: {'enctype': 'multipart/form-data'}}) }}
+        {{ form_row(form.title) }}
+
+        {#{{ form_row(form.text) }}#}
+        {{ form_row(form.status) }}
+        {#<div class="form-group">#}
+            {#<div class="col-sm-10 col-sm-offset-2">#}
+                {#<a href="{{ path('landing_page', {id: entity.id}) }}"#}
+                   {#target="_blank" style="font-weight: bold;">Предпросмотр</a>#}
+            {#</div>#}
+        {#</div>#}
+        {{ form_row(form.slug) }}
+
+<style>#landingpage_cssFile {
+        display: inline-block;
+    }</style>
+<div class="form-group {% if form.cssFile.vars.errors|length %}has-error{% endif %}">
+    {{ form_label(form.cssFile) }}
+    <div class="{{ block('form_group_class') }}">
+        {{ form_widget(form.cssFile) }} {% if entity.additionalCss %}{{ entity.additionalCss }}{% endif %}
+        {{ form_errors(form.cssFile) }}
+    </div>
+</div>
+{#{% if entity.additionalCss %}#}
+            {#<div class="form-group">#}
+                {#<div class="col-sm-10 col-sm-offset-2">#}
+                    {#{{ entity.additionalCss }}#}
+                {#</div>#}
+            {#</div>#}
+        {#{% endif %}#}
+{#<div class="form-group">#}
+    {#<div class="col-sm-10 col-sm-offset-2">#}
+        {#<button id="elfinder" type="button">Выбрать файл на сервере#}
+        {#</button>#}
+        {#<input type="text" id="elfinder_link" style="min-width: 300px;">#}
+    {#</div>#}
+{#</div>#}
+<style>
+    label {
+        display: inline-block !important;
+    }
+</style>
+{% set block1 = entity.getBlockByPosition(1) %}
+<div class="form-group">
+    <label for="" style="padding: 0; font-size: 13px;"
+           class="col-sm-2 text-right">Верхний блок с промокодом</label>
+    <div class="col-sm-10 ">
+        <label for="block1v"><span style="width: 90px; display: inline-block">Показать</span>
+            <input type="checkbox"
+                   name="block1[status]"
+                   id="block1v" value="1"
+                   {% if block1.isVisible %}checked{% endif %}></label><br>
+        <label for="block1-title" style="width: 100px;">Заголовок</label><input
+                type="text" style="width: calc(100% - 100px)"
+                placeholder="Первая строка" name="block1[title]"
+                value="{{ block1.data.title }}" id="block1-title"><br>
+        <label for="block1-title"
+               style="width: 100px; margin-top: 10px;">Текст</label><input
+                type="text" style="width: calc(100% - 100px)"
+                placeholder="Вторая строка" name="block1[text]"
+                value="{{ block1.data.text }}" id="block1-text">
+    </div>
+</div>
+<hr>
+
+{% set block2 = entity.getBlockByPosition(2) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Верхнее меню</label>
+    <div class="col-sm-10 ">
+        <label for="block2v"><span style="width: 100px; display: inline-block">Показать</span>
+            <input type="checkbox"
+                   name="block2[status]"
+                   id="block2v" value="1"
+                   {% if block2.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block">Логотип </label>
+        {% if block2.data.img %}
+            <a href="{{ block2.data.img }}"><img
+                        src="{{ block2.data.img }}" alt=""
+                        style="width: 100px; height: 100px;"></a>
+        {% endif %}
+        <input type="file"
+               style="width: 30%; display: inline-block; margin-left: 10px;"
+               placeholder="Кнопка" name="block2[img]"
+               value="{{ block2.data.img }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Пункт
+            1 </label><input type="text"
+                             style="width: calc(100% - 100px); margin-top: 5px;"
+                             placeholder="Первая строка" name="block2[first]"
+                             value="{{ block2.data.first }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Пункт
+            2</label><input type="text"
+                            style="width: calc(100% - 100px); margin-top: 5px;"
+                            placeholder="Вторая строка" name="block2[second]"
+                            value="{{ block2.data.second }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Кнопка </label><input
+                type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+                placeholder="Кнопка"
+                name="block2[button]"
+                value="{{ block2.data.button }}"><br>
+
+
+        <input type="hidden" style="width: 30%" placeholder="Кнопка"
+               name="block2[img]" value="{{ block2.data.img }}">
+    </div>
+</div>
+<hr>
+
+{% set block3 = entity.getBlockByPosition(3) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Баннер</label>
+    <div class="col-sm-10 ">
+        <label for="block3v"><span style="width: 100px; display: inline-block">Показать</span>
+            <input type="checkbox"
+                   name="block3[status]"
+                   id="block3v" value="1"
+                   {% if block3.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Логотип </label>
+        {% if block3.data.img %}
+            <a href="{{ block3.data.img }}"><img
+                        src="{{ block3.data.img }}" alt=""
+                        style="width: 100px; height: 100px;"></a>
+        {% endif %}
+        <input type="file" style="width: 30%; display: inline-block"
+               placeholder="Кнопка" name="block3[img]"
+               value="{{ block3.data.img }}">
+        {#<input#}
+                {#type="text" style=" width: calc(100% - 100px); margin-top: 5px;"#}
+                {#placeholder="Первая строка" name="block3[title]"#}
+                {#value="{{ block3.data.title }}">#}
+        <br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Заголовок </label><input
+                type="text" style=" width: calc(100% - 100px); margin-top: 5px;"
+                placeholder="Первая строка" name="block3[title]"
+                value="{{ block3.data.title }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Желтый
+            текст </label><input type="text"
+                                 style="margin-top: 5px; width: calc(100% - 100px);"
+                                 placeholder="Первая строка"
+                                 name="block3[yellow]"
+                                 value="{{ block3.data.yellow }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Текст </label><input
+                type="text" style=" width: calc(100% - 100px); margin-top: 5px;"
+                placeholder="Первая строка" name="block3[third]"
+                value="{{ block3.data.third }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Кнопка </label><input
+                type="text" style=" width: calc(100% - 100px); margin-top: 5px;"
+                placeholder="Первая строка" name="block3[button]"
+                value="{{ block3.data.button }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Промо
+            код</label><input type="text"
+                              style=" width: calc(100% - 100px); margin-top: 5px;"
+                              placeholder="Первая строка" name="block3[footer]"
+                              value="{{ block3.data.footer }}"><br>
+
+        <input type="hidden" style="width: 30%" placeholder="Кнопка"
+               name="block3[img]" value="{{ block3.data.img }}">
+    </div>
+</div>
+<hr>
+
+{% set block4 = entity.getBlockByPosition(4) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right" style="font-size: 12px;">Блок "AS FEATURED IN"</label>
+    <div class="col-sm-10 ">
+        <label for="block4v"><span style="width: 100px; display: inline-block">Показать</span> <input type="checkbox"
+                                             name="block4[status]"
+                                             id="block4v" value="1"
+                                             {% if block4.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Заголовок </label><input type="text" style="width: calc(100% - 100px);  margin-top: 5px;" placeholder="Заголовок"
+               name="block4[title]" value="{{ block4.data.title }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Логотип </label>
+        {% if block4.data.img %}
+            <a href="{{ block4.data.img }}"><img
+                        src="{{ block4.data.img }}" alt=""
+                        style="width: 100px; height: 100px;"></a>
+        {% endif %}
+        <input type="file" style="width: 30%; display: inline-block"
+               placeholder="Кнопка" name="block4[img]"
+               value="{{ block4.data.img }}">
+        <input type="hidden" style="width: 30%" placeholder="Кнопка"
+               name="block4[img]" value="{{ block4.data.img }}">
+    </div>
+</div>
+<hr>
+
+{#{% set block5 = entity.getBlockByPosition(5) %}#}
+{#<div class="form-group">#}
+    {#<label for="" class="col-sm-2 text-right">Желтая строка</label>#}
+    {#<div class="col-sm-10 ">#}
+        {#<label for="block5v">Показать <input type="checkbox"#}
+                                             {#name="block5[status]"#}
+                                             {#id="block5v" value="1"#}
+                                             {#{% if block5.isVisible %}checked{% endif %}></label><br>#}
+        {#<input type="text" style="width: 90%" placeholder="Текст"#}
+               {#name="block5[title]" value="{{ block5.data.title }}">#}
+
+    {#</div>#}
+{#</div>#}
+{#<hr>#}
+
+{% set block6 = entity.getBlockByPosition(6) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right" style="padding: 0; font-size: 13px;">Текстовый блок со статистикой</label>
+    <div class="col-sm-10 ">
+        <label for="block6v">Показать <input type="checkbox"
+                                             name="block6[status]"
+                                             id="block6v" value="1"
+                                             {% if block6.isVisible %}checked{% endif %}></label><br>
+        {#<input type="text" style="width: 45%" placeholder="Кнопка"#}
+               {#name="block6[first]" value="{{ block6.data.first }}">#}
+
+        <label for="" style="width: 100px; vertical-align: top;">Заголовок</label><input type="text" style="width: calc(100% - 100px);" placeholder="Заголовок" name="block6[second]" value="{{ block6.data.second }}"><br>
+ <label for="" style="width: 100px; vertical-align: top; height: 100px; line-height: 100px;">Изображение</label>
+ {% if block6.data.img %}
+     <a href="{{ block6.data.img }}"><img
+                 src="{{ block6.data.img }}" alt=""
+                 style="width: 100px; height: 100px;"></a>
+ {% endif %}
+ <input type="file" style="width: 30%; display: inline-block; margin-left: 20px;"
+        placeholder="Кнопка" name="block6[img]"
+        value="{{ block6.data.img }}"><br><br>
+
+ <style>
+     #cke_block6-first {
+         width: calc(100% - 105px);
+         display: inline-block;
+     }
+ </style>
+ <label for="" style="width: 100px; vertical-align: top;">Текст</label><textarea name="block6[first]" id="block6-first">{{ block6.data.first }}</textarea>
+
+ {#<input type="text" style="width: 45%" placeholder="Кнопка"#}
+               {#name="block6[second]" value="{{ block6.data.second }}">#}
+        {#<br>#}
+        {#<input type="text" style="width: 100%; margin-top: 5px;"#}
+               {#placeholder="Кнопка" name="block6[third]"#}
+               {#value="{{ block6.data.third }}">#}
+        {#<input type="text" style="width: 100%; margin-top: 5px;"#}
+               {#placeholder="Кнопка" name="block6[fourth]"#}
+               {#value="{{ block6.data.fourth }}">#}
+        {#<input type="text" style="width: 100%; margin-top: 5px;"#}
+               {#placeholder="Кнопка" name="block6[fifth]"#}
+               {#value="{{ block6.data.fifth }}">#}
+        <br>
+        <input type="hidden" style="width: 30%" placeholder="Кнопка"
+               name="block6[img]" value="{{ block6.data.img }}">
+    </div>
+</div>
+<hr>
+
+{% set block7 = entity.getBlockByPosition(7) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Вводное видео</label>
+    <div class="col-sm-10 ">
+        <label for="block7v">Показать <input type="checkbox"
+                                             name="block7[status]"
+                                             id="block7v" value="1"
+                                             {% if block7.isVisible %}checked{% endif %}></label><br>
+        {% if block7.data.video %}
+            {% if isLocalVideo(block7.data.video) %}
+                <video controls width="300" height="150" style="">
+                    <source src="{{ block7.data.video }}" type="video/mp4">
+                </video>
+            {% else %}
+            <iframe width="300" height="150" src="{{ block7.data.video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {% endif %}
+        {% endif %}<span style="display: inline-block; width: calc(100% - 305px); vertical-align: top; padding-top: 50px;">
+        <input type="file" style="width: 100%; display: inline-block"
+               placeholder="Кнопка" name="block7[video]"
+               value="{{ block7.data.video }}"> <br><span style="width: 200px; display: inline-block; text-align: center;">или</span><br>
+
+
+        Ссылка на файл <input type="text" style="width: 89%" placeholder="Кнопка"
+               name="block7[video]" value="{{ block7.data.video }}"
+               class="">
+            </span>
+    </div>
+</div>
+<hr>
+
+{#{% set block8 = entity.getBlockByPosition(8) %}#}
+{#<div class="form-group">#}
+    {#<label for="" class="col-sm-2 text-right">Желтая строка</label>#}
+    {#<div class="col-sm-10 ">#}
+        {#<label for="block8v">Показать <input type="checkbox"#}
+                                             {#name="block8[status]"#}
+                                             {#id="block8v" value="1"#}
+                                             {#{% if block8.isVisible %}checked{% endif %}></label><br>#}
+        {#<input type="text" style="width: 90%" placeholder="Текст"#}
+               {#name="block8[title]" value="{{ block8.data.title }}">#}
+
+    {#</div>#}
+{#</div>#}
+
+{% set block9 = entity.getBlockByPosition(9) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Текстовый блок с кнопкой</label>
+    <div class="col-sm-10 ">
+        <label for="block9v">Показать <input type="checkbox"
+                                             name="block9[status]"
+                                             id="block9v" value="1"
+                                             {% if block9.isVisible %}checked{% endif %}></label><br>
+        <style>
+            #cke_block9-first {
+                width: calc(100% - 105px);
+                display: inline-block;
+            }
+        </style>
+        <div style="margin-top: 5px;">
+        <label for="" style="width: 100px; vertical-align: top;">Заголовок</label><input type="text" style="width: calc(100% - 100px); display: inline-block; "
+               placeholder="Текст" name="block9[second]"
+               value="{{ block9.data.second }}"
+              ></div>
+        <div style="margin-top: 10px;">
+        <label for="" style="width: 100px; vertical-align: top;">Текст</label><textarea type="text" style="width: 90%" placeholder="Текст" id="block9-first"
+                                                                                        name="block9[first]" value="">{{ block9.data.first }}</textarea><br>
+        </div>
+
+        {#<input type="text" style="width: 100%; margin-top: 5px;"#}
+               {#placeholder="Текст" style="" name="block9[third]"#}
+               {#value="{{ block9.data.third }}"><br>#}
+        {#<input type="text" style="width: 30%; margin-top: 5px;"#}
+               {#placeholder="Текст" name="block9[fourth]"#}
+               {#value="{{ block9.data.fourth }}"#}
+               {#style="margin-top: 5px;">#}
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px; vertical-align: top;">Кнопка</label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+               placeholder="Текст" name="block9[button]"
+               value="{{ block9.data.button }}"
+               style="margin-top: 5px;">
+        </div>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px; vertical-align: top;">Промо код</label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+               placeholder="Текст" name="block9[footer]"
+               value="{{ block9.data.footer }}"
+               style="margin-top: 5px;">
+        </div>
+    </div>
+</div>
+
+{#{% set block10 = entity.getBlockByPosition(10) %}#}
+{#<div class="form-group">#}
+    {#<label for="" class="col-sm-2 text-right">Желтая строка</label>#}
+    {#<div class="col-sm-10 ">#}
+        {#<label for="block10v">Показать <input type="checkbox"#}
+                                              {#name="block10[status]"#}
+                                              {#id="block10v" value="1"#}
+                                              {#{% if block10.isVisible %}checked{% endif %}></label><br>#}
+        {#<input type="text" style="width: 90%" placeholder="Текст"#}
+               {#name="block10[title]" value="{{ block10.data.title }}">#}
+    {#</div>#}
+{#</div>#}
+{#<hr>#}
+
+{% set block11 = entity.getBlockByPosition(11) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Блок с инфографикой</label>
+    <div class="col-sm-10 ">
+        <label for="block11v">Показать <input type="checkbox"
+                                              name="block11[status]"
+                                              id="block11v" value="1"
+                                              {% if block11.isVisible %}checked{% endif %}></label><br>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px; vertical-align: top;">Заголовок</label><input type="text" style="width: calc(100% - 100px); " placeholder="Текст"
+                                                                                            name="block11[title]" value="{{ block11.data.title is defined ? block11.data.title   : ''  }}"></div>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px; vertical-align: top;">Текст</label><textarea type="text" style="width: calc(100% - 100px); min-height: 100px;" placeholder="Текст"
+               name="block11[first]"
+                  value="">{{ block11.data.first }}</textarea></div>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px; vertical-align: top;">Изображение</label>
+            {% if block11.data.img %}
+                <a href="{{ block11.data.img }}"><img
+                            src="{{ block11.data.img }}" alt=""
+                            style="width: 100px; height: 100px; "></a>
+            {% endif %}
+            <input type="file" style="width: 30%; display: inline-block"
+                   placeholder="Кнопка" name="block11[img]"
+                   value="{{ block11.data.img }}">
+            <input type="hidden" style="width: 30%" placeholder="Кнопка"
+                   name="block11[img]" value="{{ block11.data.img }}">
+        </div>
+        {% set icons = ['fa-calendar', 'fa-bar-chart', 'fa-bullhorn', 'fa-users', 'fa-cloud-download', 'fa-bookmark'] %}
+        {% for x in range(1, 6) %}
+            <div style="margin-top: 5px;">
+            {#<span class="fa {{ icons[x - 1] }}"#}
+                  {#style="color: rgb(252, 195, 0);"></span>#}
+                <label for="" style="width: 100px; vertical-align: top; padding-top: 5px;">Инфо блок #{{ x }}</label><div style="display: inline-block; width: calc(100% - 100px)">
+                    <input type="text" style="width: 100%; margin-top: 5px;"
+                           placeholder="Кнопка"
+                           name="block11[{{ x ~ '_css' }}]"
+                           value="{{ block11.data[x ~ '_css'] is defined ? block11.data[x ~ '_css'] : ''  }}">
+            <input type="text" style="width: 100%; margin-top: 5px;"
+                   placeholder="Кнопка"
+                   name="block11[{{ x ~ '_title' }}]"
+                   value="{{ block11.data[x ~ '_title'] }}">
+            <input type="text" style="width: 100%; margin-top: 5px;"
+                   placeholder="Кнопка"
+                   name="block11[{{ x ~ '_text' }}]"
+                   value="{{ block11.data[x ~ '_text'] }}">
+                </div>
+            </div>
+        {% endfor %}
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px;">Кнопка</label><input type="text" style="width: calc(100% - 100px); "
+               placeholder="Кнопка" name="block11[button]"
+               value="{{ block11.data.button }}">
+        </div>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px;">Промо код</label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+               placeholder="Кнопка" name="block11[footer]"
+               value="{{ block11.data.footer }}">
+        </div>
+
+    </div>
+</div>
+<hr>
+
+{% set block12 = entity.getBlockByPosition(12) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Текстовый отзыв</label>
+    <div class="col-sm-10 ">
+        <label for="block12v"><span style="width: 100px; display: inline-block">Показать</span> <input type="checkbox"
+                                              name="block12[status]"
+                                              id="block12v" value="1"
+                                              {% if block12.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Текст </label>
+        <textarea type="text" style="width: 90%; min-height: 90px;" placeholder="Кнопка"
+               name="block12[title]"
+                  >{{ block12.data.title }}</textarea><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Автор </label><input type="text" style=" width: calc(100% - 100px); margin-top: 5px;"
+               placeholder="Кнопка" name="block12[footer]"
+               value="{{ block12.data.footer }}"><br>
+        <div style="margin-top: 10px;">
+            <label style="width: 100px; display: inline-block; margin-top: 5px;">Изображение </label>
+        {% if block12.data.img %}
+            <a href="{{ block12.data.img }}"><img
+                        src="{{ block12.data.img }}" alt=""
+                        style="width: 100px; height: 100px; margin-top: 5px;"></a>
+        {% endif %}
+        <input type="file" style="width: 30%; display: inline-block"
+               placeholder="Кнопка" name="block12[img]"
+               value="{{ block12.data.img }}">
+        <input type="hidden" style="width: 30%" placeholder="Кнопка"
+               name="block12[img]" value="{{ block12.data.img }}">
+        </div>
+    </div>
+</div>
+<hr>
+
+{% set block13 = entity.getBlockByPosition(13) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Видео отзыв</label>
+    <div class="col-sm-10 ">
+        <label for="block13v">Показать <input type="checkbox"
+                                              name="block13[status]"
+                                              id="block13v" value="1"
+                                              {% if block13.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Заголовок </label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;" placeholder="Кнопка" name="block13[title]"
+                        value="{{ block13.data.title }}"><br>
+        <div style=" margin-top: 5px;">
+        <label style="width: 100px; display: inline-block; vertical-align: top;">Видео </label>
+            {% if block13.data.video %}
+                {% if isLocalVideo(block13.data.video) %}
+                    <video controls width="300" height="150" style="height: 295px !important;">
+                        <source src="{{ block13.data.video }}" type="video/mp4">
+                    </video>
+                {% else %}
+                    <iframe width="300" height="150" src="{{ block13.data.video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% endif %}
+                {#<a href="{{ block12.data.img }}"><img#}
+                            {#src="{{ block12.data.img }}" alt=""#}
+                            {#style="width: 100px; height: 100px; margin-top: 5px;"></a>#}
+            {% endif %}
+            <span style="width: calc(100% - 410px) !important; display: inline-block; padding-top: 30px; vertical-align: top;">
+            <input type="file" style="width: 100%;" placeholder="Youtube Video"
+                   name="block13[video]"><br>
+                <span style="margin-left: 20px; ">или</span><br><br>
+        <input type="text" style="width: 100%;" placeholder="Youtube Video"
+               name="block13[video]"
+               value="{{ block13.data.video }}" >
+                </span>
+        </div>
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Текст </label><textarea name="block13[text]" id="" cols="30" rows="3"
+                  style="width: calc(100% - 100px); margin-top: 5px;  min-height: 120px;">{{ block13.data.text }}</textarea>
+        {#<input type="text" style="width: 100%; margin-top: 5px;"#}
+        {#placeholder="Кнопка" name="block13[text]"#}
+        {#value="{{ block13.data.text }}">#}
+    </div>
+</div>
+<hr>
+
+{% set block14 = entity.getBlockByPosition(14) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Текстовый блок о видео</label>
+    <div class="col-sm-10 ">
+        <label for="block13v">Показать <input type="checkbox"
+                                              name="block14[status]"
+                                              id="block14" value="1"
+                                              {% if block14.isVisible %}checked{% endif %}></label><br>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px;">Заголовок #1</label><input type="text" style="width: calc(100% - 100px);" placeholder="Кнопка"
+               name="block14[title]"
+               value="{{ block14.data.title }}">
+        </div>
+        <style>
+            #cke_block14-text,
+            #cke_block14-third {
+                width: calc(100% - 105px);
+                display: inline-block;
+            }
+        </style>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px; vertical-align: top;">Текст</label><textarea name="block14[text]" id="block14-text" cols="30" rows="3"
+                  style="width: 100%; min-height: 150px;">{{ block14.data.text }}</textarea>
+        </div>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px;">Заголовок #2</label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+               placeholder="Кнопка" name="block14[second]"
+               value="{{ block14.data.second }}">
+
+        </div>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px; vertical-align: top;">Текст</label><textarea type="text" style="width: 50%; margin-top: 5px;" id="block14-third"
+                   placeholder="Кнопка" name="block14[third]"
+                      value="">{{ block14.data.third }}</textarea>
+        </div>
+        {#<input type="text" style="width: 49%; margin-top: 5px;"#}
+               {#placeholder="Кнопка" name="block14[fourth]"#}
+               {#value="{{ block14.data.fourth }}">#}
+        {#<input type="text" style="width: 50%; margin-top: 5px;"#}
+               {#placeholder="Кнопка" name="block14[click]"#}
+               {#value="{{ block14.data.click }}"><br>#}
+
+        <div id="block-14-container">
+            {% set key = 0 %}
+            {% for link in block14.data.links %}
+                <div class="link-container" style="margin-top: 5px;"
+                     data-key="{{ key }}">
+                    <label for="">Видео отзыв #{{ key + 1 }}</label>
+                    {% if link.img %}
+                        <a href="{{ link.img }}"><img
+                                    src="{{ link.img }}" alt=""
+                                    style="width: 100px; height: 100px;"></a>
+                    {% endif %}
+                    <input type="file"
+                           style="width: 20%; display: inline-block"
+                           placeholder="Кнопка"
+                           name="block14[links][{{ key }}][img]">
+                    <input type="hidden" style="width: 30%"
+                           placeholder="Кнопка"
+                           name="block14[links][{{ key }}][img]"
+                           value="{{ link.img }}"><br>
+                    <input type="text"
+                           style="width: calc(100% - 125px); margin-left: 110px; margin-top: 5px;"
+                           placeholder="Кнопка"
+                           name="block14[links][{{ key }}][url]"
+                           value="{{ link.url }}">
+                    <span class="remove-link fa fa-trash"
+                          style="color: red; cursor: pointer;"></span>
+                    {% set key = key + 1 %}
+                </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 5px;"><span class="link-add"
+                                            style="cursor: pointer"><span
+                        class="fa fa-plus" style=""></span> Добавить</span>
+        </div>
+        <div style="margin-top: 5px;">
+            <label for="" style="width: 100px;">Кнопка</label><input type="text" style="width: calc(100% - 100px); margin-top: 5px;"
+        placeholder="Кнопка" name="block14[button]"
+        value="{{ block14.data.button is defined ?  block14.data.button  : ''  }}">
+        </div>
+        <div style="margin-top: 5px">
+            <label for="" style="width: 100px;">Промо код</label><input type="text" style="width:  calc(100% - 100px); margin-top: 5px;"
+        placeholder="Кнопка" name="block14[footer]"
+        value="{{ block14.data.footer is defined ? block14.data.footer  : ''  }}">
+        </div>
+
+    </div>
+</div>
+<hr>
+
+
+{% set block15 = entity.getBlockByPosition(15) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Блок с промокодом</label>
+    <div class="col-sm-10 ">
+        <label for="block15v">Показать <input type="checkbox"
+                                              name="block15[status]"
+                                              id="block15v" value="1"
+                                              {% if block15.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Заголовок </label><input type="text" style="width: calc(100% - 100px);"
+               placeholder="Первая строка" name="block15[first]"
+               value="{{ block15.data.first }}"><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Текст </label><input type="text" style="width: calc(100% - 100px);"
+               placeholder="Вторая строка" name="block15[second]"
+               value="{{ block15.data.second }}">
+        <label style="width: 100px; display: inline-block; margin-top: 5px; vertical-align: top;">Промо код </label><input type="text" style="width: calc(100% - 100px);"
+               placeholder="Третья строка" name="block15[third]"
+               value="{{ block15.data.third }}">
+    </div>
+</div>
+<hr>
+
+{% set block16 = entity.getBlockByPosition(16) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right">Продукты</label>
+    <div class="col-sm-10 ">
+        <label for="block16v">Показать <input type="checkbox"
+                                              name="block16[status]"
+                                              id="block16v" value="1"
+                                              {% if block16.isVisible %}checked{% endif %}></label><br>
+        {#<input type="text" style="width: 45%" placeholder="Кнопка"#}
+               {#name="block16[button]" value="{{ block16.data.button }}">#}
+        {#<input type="text" style="width: 45%" placeholder="Текст под кнопкой"#}
+               {#name="block16[footer]" value="{{ block16.data.footer }}">#}
+
+
+        <div id="block-16-images" style="position: relative">
+            {% set key = 0 %}
+            {% for img in block16.data.images %}
+                <label style="position: absolute; left: -100px;  padding-top: 5px;">Продукт #{{ key + 1 }}</label>
+                <div class="video-container" style="margin-top: 10px; overflow: hidden;"
+                     data-key="{{ key }}">
+
+                    {% if img.link %}
+                        <a href="{{ img.link }}"><img
+                                    src="{{ img.link }}" alt=""
+                                    style="width: 100px; height: 100px; "></a>
+                    {% endif %}
+                    <input type="file" style="width: 30%; display: inline-block"
+                           placeholder="Кнопка"
+                           name="block16[images][{{ key }}][link]"
+                    >
+                    <input type="hidden" style="width: 30%" placeholder="Кнопка"
+                           name="block16[images][{{ key }}][link]"
+                           value="{{ img.link }}">
+                    <span style="float: right; margin-top: 20px;">
+                    <label for="popular-product-{{ key }}">Самый популярный
+                        товар</label> <input type="checkbox" style=""
+                                             placeholder="Кнопка"
+                                             name="block16[images][{{ key }}][popular]"
+                                             id="popular-product-{{ key }}"
+                                             class="popular-product"
+                                             {% if img.popular is defined and img.popular %}checked{% endif %}
+                                             value="1">
+                        </span>
+                    <input type="text" style="width: calc(100%); margin-top: 5px;" placeholder="Кнопка"
+                           name="block16[images][{{ key }}][button]"
+                           value="{{ img.button is defined ? img.button : '' }}">
+                    <input type="text" style="width: calc(100%); margin-top: 5px;" placeholder="Купон"
+                           name="block16[images][{{ key }}][footer]"
+                           value="{{ img.footer is defined ? img.footer : '' }}">
+                    {% set key = key + 1 %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 5px;">
+            <label style="width: 200px; position: absolute; left: -150px;">Заголовок для самого популярного товара</label><input type="text" style="width: 100%;"
+               placeholder="Самый популярный товар"
+               name="block16[first]" value="{{ block16.data.first }}">
+        </div>
+    </div>
+</div>
+<hr>
+
+
+{% set block17 = entity.getBlockByPosition(17) %}
+<div class="form-group">
+    <label for="" class="col-sm-2 text-right" style="padding: 0; font-size: 13px;">Блок с видео и преимуществами</label>
+    <div class="col-sm-10 ">
+        <label for="block17v">Показать <input type="checkbox"
+                                              name="block17[status]"
+                                              id="block17v" value="1"
+                                              {% if block17.isVisible %}checked{% endif %}></label><br>
+        <label style="width: 100px; display: inline-block; margin-top: 5px;">Заголовок #1 </label><input type="text" style="width: calc(100% - 100px)"
+               placeholder="Первая строка" name="block17[title]"
+               value="{{ block17.data.title }}">
+        <div id="block-17-videos">
+            {% set key = 0 %}
+            {% for video in block17.data.videos %}
+                <div class="video-container" style="margin-top: 5px;"
+                     data-key="{{ key }}">
+                    <label for="" style="width: 100px;">Видео #{{ key + 1 }}</label>
+                    <input type="text" style="width: calc(100% - 120px);"
+                           placeholder="Кнопка"
+                           name="block17[videos][{{ key }}]"
+                           value="{{ video }}" class="youtube-video">
+                    <span class="remove-video fa fa-trash"
+                          style="color: red; cursor: pointer;"></span>
+                    {% set key = key + 1 %}
+                </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 5px;"><span class="video-add"
+                                            style="cursor: pointer"><span
+                        class="fa fa-plus" style=""></span> Добавить видео</span>
+        </div>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px; display: inline-block; margin-top: 5px;">Заголовок #2 </label><input type="text" style="width: calc(100% - 100px);"
+               placeholder="Вторая строка" name="block17[second]"
+               value="{{ block17.data.second }}">
+        </div>
+        <div style="margin-top: 5px;">
+            <label style="width: 100px; display: inline-block; margin-top: 5px;">Текст </label><input type="text" style="width: calc(100% - 100px);"
+               placeholder="Вторая строка" name="block17[text]"
+               value="{{ block17.data.text }}">
+        </div>
+
+            <div id="block-17-list">
+                {% set key = 0 %}
+                {% for el in block17.data.list %}
+                    <div class="list-container" style="margin-top: 5px;"
+                         data-key="{{ key }}">
+                        <label for="">Пункт списка {{ key + 1 }}</label> <input type="text" style="width: calc(100% - 127px); display: inline-block"
+                               placeholder="Кнопка"
+                               name="block17[list][{{ key }}][title]"
+                               value="{{ el.title }}">
+                        <input type="text" style="width: calc(100% - 127px); margin-left: 107px; display: inline-block"
+                               placeholder="Кнопка"
+                               name="block17[list][{{ key }}][text]"
+                               value="{{ el.text }}">
+
+                        <span class="remove-list fa fa-trash"
+                              style="color: red; cursor: pointer; margin-top: -20px !important;vertical-align: middle"></span>
+                        {% set key = key + 1 %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px;"><span class="list-add"
+                                                style="cursor: pointer"><span
+                            class="fa fa-plus" style=""></span> Добавить</span>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+
+    {% set block18 = entity.getBlockByPosition(18) %}
+    <div class="form-group">
+        <label for="" class="col-sm-2 text-right">Блок</label>
+        <div class="col-sm-10 ">
+            <label for="block18v">Показать <input type="checkbox"
+                                                  name="block18[status]"
+                                                  id="block18v" value="1"
+                                                  {% if block18.isVisible %}checked{% endif %}></label><br>
+            <input type="text" style="width: 90%" placeholder="Текст"
+                   name="block18[title]"
+                   value="{{ block18.data.title }}"><br>
+            <input type="text" style="width: 45%; margin-top: 5px;"
+                   placeholder="Текст" name="block18[second]"
+                   value="{{ block18.data.second }}"
+                   style="margin-top: 5px;">
+            <input type="text" style="width: 45%; margin-top: 5px;"
+                   placeholder="Текст" style="" name="block18[third]"
+                   value="{{ block18.data.third }}"><br>
+            <input type="text" style="width: 45%; margin-top: 5px;"
+                   placeholder="Текст" name="block18[button]"
+                   value="{{ block18.data.button }}"
+                   style="margin-top: 5px;">
+            <input type="text" style="width: 45%; margin-top: 5px;"
+                   placeholder="Текст" name="block18[footer]"
+                   value="{{ block18.data.footer }}"
+                   style="margin-top: 5px;">
+        </div>
+    </div>
+
+    {% set block19 = entity.getBlockByPosition(19) %}
+    <div class="form-group">
+        <label for="" class="col-sm-2 text-right">Нижний блок с промо кодом</label>
+        <div class="col-sm-10 ">
+            <label for="block19v">Показать <input type="checkbox"
+                                                  name="block19[status]"
+                                                  id="block19v" value="1"
+                                                  {% if block19.isVisible %}checked{% endif %}></label><br>
+            <div style="margin-top: 5px;">
+                <label for="" style="width: 100px;">Заголовок</label><input type="text" style="width: calc(100% - 100px)"
+                   placeholder="Первая строка" name="block19[first]"
+                   value="{{ block19.data.first }}">
+            </div>
+            <div style="margin-top: 5px;">
+                <label for="" style="width: 100px;">Промо код</label><input type="text" style="width: calc(100% - 100px)"
+                   placeholder="Вторая строка" name="block19[second]"
+                   value="{{ block19.data.second }}">
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    {% set block20 = entity.getBlockByPosition(20) %}
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label for="" class="col-sm-2 text-right">Footer</label>
+        <div class="col-sm-10 ">
+            <label for="block20v">Показать <input type="checkbox"
+                                                  name="block20[status]"
+                                                  id="block20v" value="1"
+                                                  {% if block20.isVisible %}checked{% endif %}></label><br>
+            <input type="text" style="width: 90%"
+                   placeholder="Первая строка" name="block20[first]"
+                   value="{{ block20.data.first }}">
+            <div id="block-20-links">
+                {% set key = 0 %}
+                {% for link in block20.data.links %}
+                    <div class="links-20-container" style="margin-top: 5px;"
+                         data-key="{{ key }}">
+
+                        <input type="text" style="width: 45%"
+                               placeholder="Кнопка"
+                               name="block20[links][{{ key }}][text]"
+                               value="{{ link.text }}">
+                        <input type="text" style="width: 45%"
+                               placeholder="Кнопка"
+                               name="block20[links][{{ key }}][url]"
+                               value="{{ link.url }}">
+                        <span class="remove-20-link fa fa-trash"
+                              style="color: red; cursor: pointer;"></span>
+                        {% set key = key + 1 %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px;"><span class="link-20-add"
+                                                style="cursor: pointer"><span
+                            class="fa fa-plus" style=""></span> Добавить</span>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+
+    {{ form_end(form) }}
+
+
+
+    {% endblock entity_form %}
+
+
+    {% block delete_form %}
+        {{ include('@EasyAdmin/default/includes/_delete_form.html.twig', {
+            view: 'edit',
+            referer: app.request.query.get('referer', ''),
+            delete_form: delete_form,
+            _translation_domain: _entity_config.translation_domain,
+            _trans_parameters: _trans_parameters,
+            _entity_config: _entity_config,
+        }, with_context = false) }}
+    {% endblock delete_form %}
+
+    {% endblock %}
+
+    {% block body_javascript %}
+        {{ parent() }}
+
+        <script type="text/javascript">
+            $(function () {
+                $('.edit-form').areYouSure({'message': '{{ 'form.are_you_sure'|trans({}, 'EasyAdminBundle')|e('js') }}'});
+
+                $('.form-actions').easyAdminSticky();
+
+                $('a.action-delete').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#modal-delete').modal({backdrop: true, keyboard: true})
+                        .off('click', '#modal-delete-button')
+                        .on('click', '#modal-delete-button', function () {
+                            $('#delete-form').trigger('submit');
+                        });
+                });
+            });
+
+
+            $('.edit-form').on('submit', function (e) {
+                let selector = '.youtube-video';
+                let elems = document.querySelectorAll(selector);
+                for (let i = 0; i < elems.length; i++) {
+                    let val = elems[i].value;
+                    if (!/^https:\/\/(www\.)?youtu(\.)?be/.test(val)) {
+                        alert(val + ' некорректная ссылка на youtube');
+                        e.preventDefault();
+                        return;
+                    } else {
+                        if (val.indexOf('youtu.be') != -1) {
+                            elems[i].value = 'https://www.youtube.com/embed/' + val.slice(val.lastIndexOf('/') + 1);
+                        }
+                        if (val.indexOf('watch') != -1) {
+                            elems[i].value = 'https://www.youtube.com/embed/' + val.slice(val.indexOf('v=') + 2);
+                        }
+                    }
+                }
+//
+            });
+
+            window.setValue = function (val) {
+                $('#elfinder_link').val(val);
+            }
+
+            $('body').on('click', '.remove-link', function (e) {
+                $(this).closest('.link-container').remove();
+            });
+
+            $('body').on('click', '.remove-video', function (e) {
+                $(this).closest('.video-container').remove();
+            });
+
+            $('body').on('click', '.remove-list', function (e) {
+                $(this).closest('.list-container').remove();
+            });
+
+            $('body').on('click', '.remove-20-link', function (e) {
+                $(this).closest('.links-20-container').remove();
+            });
+
+            $('.link-add').on('click', function (e) {
+                let key = $('.link-container').length ? $('.link-container:last').data('key') + 1 : 0;
+
+                let html = `<div class="link-container" style="margin-top: 5px;" data-key="${key}">
+<label for="">Видео отзыв #${key}</label>
+    <input type="file" style="width: 20%; display: inline-block" placeholder="Кнопка"  name="block14[links][${key}][img]"><br>
+    <input type="hidden" style="width: calc(100% - 125px); margin-left: 110px; margin-top: 5px;" placeholder="Кнопка"  name="block14[links][${key}][img]" value="">
+    <input type="text" style="width: calc(100% - 125px); margin-left: 110px; margin-top: 5px;" placeholder="Ссылка"  name="block14[links][${key}][url]" value="">
+    <span class="remove-link fa fa-trash" style="color: red; cursor: pointer;"></span>
+</div>`;
+                $("#block-14-container").append(html);
+            });
+
+            $('.video-add').on('click', function (e) {
+                let key = $('.video-container').length ? $('.video-container:last').data('key') + 1 : 0;
+                let html = `<div class="video-container" style="margin-top: 5px;" data-key="${key}">                    <label for="" style="width: 100px;">Видео #${key + 1}</label>
+            <input type="text" style="width: calc(100% - 120px);" placeholder="Ссылка"
+             name="block17[videos][${key}]" value="" class="youtube-video">
+      <span class="remove-video fa fa-trash" style="color: red; cursor: pointer;"></span></div>`;
+                $("#block-17-videos").append(html);
+            });
+
+            $('.list-add').on('click', function (e) {
+                let key = $('.list-container').length ? $('.list-container:last').data('key') + 1 : 0;
+                let html = `<div class="list-container" style="margin-top: 5px;" data-key="${key}"><label for="">Пункт списка ${key + 1}</label>
+            <input type="text" style=" width: calc(100% - 127px);  display: inline-block" placeholder="Кнопка" name="block17[list][${key}][title]"
+            value=""> <input type="text" style=" width: calc(100% - 127px); margin-left: 107px; display: inline-block" placeholder="Кнопка"
+            name="block17[list][${key}][text]" value=""> <span class="remove-list fa fa-trash" style="color: red; cursor: pointer; vertical-align: middle; margin-top: -20px;"></span></div>`;
+                $("#block-17-list").append(html);
+            });
+
+            $('.link-20-add').on('click', function (e) {
+                let key = $('.list-container').length ? $('.list-container:last').data('key') + 1 : 0;
+                let html = `<div class="links-20-container" style="margin-top: 5px;" data-key="${key}">
+                            <input type="text" style="width: 45%" placeholder="Кнопка" name="block20[links][${key}][text]"
+                                   > <input type="text" style="width: 45%" placeholder="Кнопка"
+                                   name="block20[links][${key}][url]" >
+                            <span class="remove-20-link fa fa-trash" style="color: red; cursor: pointer;"></span></div>`;
+                $("#block-20-links").append(html);
+            });
+
+            $('.popular-product').on('click', function (e) {
+                $('.popular-product').prop('checked', false);
+                $(this).prop('checked', true);
+            });
+
+            $(function() {
+                let iframes = document.querySelectorAll('iframe');
+                for (let i = 0; i <= iframes.length; i++) {
+                    let video = iframes[i].contentWindow.document.body.querySelector('video');
+                    if (video) {
+                        video.pause();
+                    }
+                }
+            });
+
+//            $('#elfinder').click(function (e) {
+//                window.open('http://28-app.test/elfinder/test', 'popUpWindow', 'height=500,width=900,left=200,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+//            });
+
+        </script>
+<script type="text/javascript">
+    var CKEDITOR_BASEPATH = "/bundles/fosckeditor/";
+</script><script type="text/javascript" src="/bundles/fosckeditor/ckeditor.js"></script><script type="text/javascript">
+        let toolbar = {"toolbar":[["Source","-","NewPage","Preview","Print","-","Templates"],["Cut","Copy","Paste","PasteText","PasteFromWord","-","Undo","Redo"],["Find","Replace","-","SelectAll","-","Scayt"],["Form","Checkbox","Radio","TextField","Textarea","SelectField","Button","ImageButton","HiddenField"],"\/",["Bold","Italic","Underline","Strike","Subscript","Superscript","-","RemoveFormat"],["NumberedList","BulletedList","-","Outdent","Indent","-","Blockquote","CreateDiv","-","JustifyLeft","JustifyCenter","JustifyRight","JustifyBlock","-","BidiLtr","BidiRtl"],["Link","Unlink","Anchor"],["Image","Flash","Table","HorizontalRule","SpecialChar","Smiley","PageBreak","Iframe"],"\/",["Styles","Format","Font","FontSize","TextColor","BGColor"],["TextColor","BGColor"],["Maximize","ShowBlocks"],["About"]],"language":"ru","filebrowserBrowseUrl":"\/elfinder"};
+    CKEDITOR.replace("block6-first", toolbar);
+    CKEDITOR.replace("block9-first", toolbar);
+    CKEDITOR.replace("block14-text", toolbar);
+    CKEDITOR.replace("block14-third", toolbar);
+    </script>
+
+
+
+        {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+    {% endblock %}

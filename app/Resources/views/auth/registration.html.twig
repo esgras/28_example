@@ -1,0 +1,183 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_reg.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_reg2.css') }}"/>#}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style_content.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/register.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/additional.css') }}">
+{% endblock %}
+{% block title %}Регистрация{% endblock %}
+{% block header_menu %}
+    <div class="header-menu">
+        <button class="header-menu__button-switch button-transparent-bright burger-js">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="header-menu__content">
+            {% if not app.user %}
+                <div class="header-menu__nav">
+                    <a href="{{ path('how_it_works_page') }}" class="header-menu__nav-link">Как это работает</a>
+                    <a href="{{ path('blog_index') }}" class="header-menu__nav-link">Блог</a>
+                    <a href="{{ path('about_us_page') }}" class="header-menu__nav-link">О нас</a>
+                </div>
+
+                <a href="{{ path('homepage') }}#section-tariff" class="header-menu__link button-full">Принять вызов</a>
+                <a href="{{ path('login') }}"
+                   class="header-menu__link button-transparent-bright">Войти</a>
+            {% else %}
+                <div class="header-menu__nav">
+                    <a href="{{ path('logout') }}" class="header-menu__nav-link">{{ app.user.name }} (выйти)</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block header_content %}
+    <p class="header__title">Завершение регистрации</p>
+    <p class="header__text">Это займет не более 5 минут</p>
+{% endblock %}
+{% block content %}
+    <section class="section-registration">
+        <div class="wrapper">
+            <div class="registration">
+                <form action="" class="registration__form" method="post">
+                    <fieldset class="registration__field-box">
+                        <p class="registration__caption">Придумайте пароль</p>
+
+                        <div class="registration__fields-group">
+                            {% for passwordField in form.password %}
+
+                            <label for="{{ passwordField.vars.id }}" class="registration__label">
+                                <input type="password" id="{{ passwordField.vars.id }}" class="registration__input input-js" name="{{ passwordField.vars.full_name }}" required>
+                                <span class="custom-placeholder">{{ passwordField.vars.label }}</span>
+                            </label>
+
+                            {% endfor %}
+                        </div>
+                        {% for passwordField in form.password %}
+                            {{ form_errors(passwordField) }}
+                        {% endfor %}
+
+                        <p class="registration__text text-hint">Пароль должен состоять из латинских букв и цифр, длина пароля должна быть не менее 8 знаков</p>
+                    </fieldset>
+
+                    <fieldset class="registration__field-box">
+                        <p class="registration__caption">Расскажите о себе</p>
+
+                        <div class="registration__fields-group">
+                            {% set nameVal = form.name.vars.value %}
+                            {% set nameHasError = form.name.vars.errors | length %}
+                            <label for="{{ form.name.vars.id }}" class="registration__label">
+                                <input type="text" id="{{ form.name.vars.id }}" class="registration__input input-js {% if nameVal %}filled{% endif %}" name="{{ form.name.vars.full_name }}" value="{{ nameVal }}">
+                                <span class="custom-placeholder {% if nameHasError %}move-to-top{% endif  %}">Как Вас зовут</span>
+                                {{ form_errors(form.name) }}
+                            </label>
+                            <label for="{{ form.city.vars.id }}" class="registration__label">
+                                <select name="{{ form.city.vars.full_name }}" id="{{ form.city.vars.id }}" class="registration__select select2 city-select" data-placeholder="Из какого Вы города">
+                                    <option value="Москва">Москва</option>
+                                    {% for choice in form.city.vars.choices %}
+                                        {% if choice.value != 'Москва' %}
+
+                                        <option value="{{ choice.value }}">{{ choice.label }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                {{ form_errors(form.city) }}
+                            </label>
+                        </div>
+
+                        <div class="registration__fields-group">
+                            <label for="{{ form.age.vars.id }}" class="registration__label">
+                                {% set ageVal = form.age.vars.value %}
+
+                                {% set ageHasError = form.age.vars.errors | length %}
+                                <input type="number" id="{{ form.age.vars.id }}" class="registration__input input-js {% if ageVal|length %}filled{% endif %}" name="{{ form.age.vars.full_name }}" value="{{ ageVal }}">
+                                <span class="custom-placeholder {% if ageHasError %}move-to-top{% endif %}">Сколько Вам лет</span>
+                                {{ form_errors(form.age) }}
+                            </label>
+
+                            <label for="{{ form.gender.vars.id }}" class="registration__label">
+                                <select name="{{ form.gender.vars.full_name }}" id="{{ form.gender.vars.id }}" class="registration__select select2 gender-select" data-placeholder="Ваш пол">
+                                    {% for g in form.gender.vars.choices %}
+                                        <option value="{{ g.value }}">{{ g.label }}</option>
+                                    {% endfor %}
+                                </select>
+                                {{ form_errors(form.gender) }}
+                            </label>
+                        </div>
+                        <div class="registration__fields-group">
+                            <label for="{{ form.scope.vars.id }}" class="registration__label">
+                                <select name="{{ form.scope.vars.full_name }}" id="scope" class="registration__select select2 scope-select" data-placeholder="В какой сфере работаете">
+                                    {% for scope in form.scope.vars.choices %}
+                                        <option value="{{ scope.value }}">{{ scope.label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+
+                            <label for="{{ form.position.vars.id }}" class="registration__label">
+                                {% set posVal =  form.position.vars.value  %}
+                                <input type="text" id="{{ form.position.vars.id }}" class="registration__input input-js {% if posVal %}filled{% endif %}" name="{{ form.position.vars.full_name }}" value="{{ posVal}}">
+                                <span class="custom-placeholder">Должность</span>
+                                {{ form_errors(form.scope) }}
+                            </label>
+                        </div>
+
+                        <textarea name="{{ form.aim.vars.full_name }}" id="{{ form.aim.vars.id }}" cols="30" rows="10" class="registration__textarea" placeholder="Какова ваша цель отказа от алкоголя">{{ form.aim.vars.value }}</textarea>
+                    </fieldset>
+
+                    <input type="submit" class="registration__submit button-full" value="Начать курс">
+                </form>
+            </div>
+        </div>
+    </section>
+    <style>
+
+    </style>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/js/components/select2.full.min.js') }}"></script>
+    <script>
+        if ($('.select2').length) {
+
+            $('.select2').each(function () {
+                let options = $(this).is('.gender-select') ? {minimumResultsForSearch: -1} : {};
+
+                $(this).select2(options);
+
+                var thisPlaceholder = $(this).data('placeholder');
+
+                if (thisPlaceholder.length) {
+                    if ($(this).is('.scope-select')) {
+                        $(this).next().find($('.select2-selection__rendered')).text(thisPlaceholder).addClass('gray-placeholder');
+                    } else {
+                        $(this).next().find($('.select2-selection')).attr('data-placeholder', thisPlaceholder);
+                    }
+
+
+                }
+            })
+
+//            $('.select2.city-select').select2('val', 'Москва');
+
+            $('.select2.scope-select').on('select2:select', function(e) {
+                $(this).next().find($('.select2-selection__rendered')).removeClass('gray-placeholder');
+                $(this).next().find($('.select2-selection')).attr('data-placeholder', $(this).data('placeholder'));
+            });
+        }
+
+        $('.registration__input').on('input', function(e) {
+            let val = $(this).val();
+
+            if (!val.length) {
+                $(this).removeClass('filled');
+            } else {
+                $(this).addClass('filled');
+            }
+        });
+    </script>
+{% endblock %}

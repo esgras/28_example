@@ -1,0 +1,109 @@
+.header__content {
+    /*padding: 0 0 80px;*/
+    padding: 80px 0 45px;
+}
+
+.value.text-area {
+    width: calc(100% - 200px);
+}
+
+
+.label.text-area,
+.value.text-area {
+    float: left;
+}
+
+
+.label, .value {
+    display: inline-block;
+    font-size: 18px;
+}
+
+.value {
+    color: #ADB2B9;
+}
+
+.row > .label {
+    width: 200px;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.account-info__title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.name {
+    font-size: 32px;
+}
+
+
+@media screen and (max-width: 767px) {
+    .row > .label {
+        width: 120px;
+    }
+
+    .value {
+        width: calc(100% - 120px) !important;
+    }
+}
+
+@media screen and (min-width: 812px) {
+    .account-info {
+        padding-left: 200px;
+
+    }
+
+}
+
+.invite-friend__description.full-width {
+    width: 100%;
+}
+
+.invite-friend__form {
+    flex-wrap: wrap;
+}
+
+.header-menu__auth-menu.active {
+    z-index: 1000;
+}
+
+.ui-widget.ui-widget-content {
+    border: none !important;
+}
+
+.header-menu__nav {
+    display: flex !important;
+    align-items: center;
+}
+
+.header-menu__link.button-full {
+    order: 0;
+}
+
+@media screen and (max-width: 667px){
+    .account-visible-smallest {
+        display: block;
+    }
+    .account-visible-middle {
+        display: none;
+    }
+
+    .header-menu__link.button-full {
+        padding: 15px 10px;
+        margin: 0 0 0 10px;
+        width: auto;
+    }
+}
+@media screen and (min-width: 668px){
+    .account-visible-smallest {
+        display: none;
+    }
+    .account-visible-middle {
+        display: block;
+    }
+}

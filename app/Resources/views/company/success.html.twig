@@ -1,0 +1,30 @@
+{% extends 'layouts/blank.html.twig' %}
+{% block content %}
+    <main class="content">
+        <section class="section-mail-confirm">
+            <div class="mail-confirm">
+                {% if success %}
+                    <p class="mail-confirm__title">Спасибо за оплату!</p>
+
+                    <div class="mail-confirm__content">
+                        {% if firstTime %}
+                            <p class="mail-confirm__text">Проверьте почту для
+                                завершения создания аккаунта и старта курса.</p>
+                        {% else %}
+                            <p class="mail-confirm__text">Проверьте почту для
+                                старта курса</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="mail-confirm__title" style="color: red;">Платеж
+                        отклонен.</p>
+
+                    <div class="mail-confirm__content">
+                        <p class="mail-confirm__text">Произошла ошибка оплаты,
+                            попробуйте повторить покупку позже.
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

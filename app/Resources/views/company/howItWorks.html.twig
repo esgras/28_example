@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block title %}Как это работает{% endblock %}
+{% set notShowHeaderContent = true %}
+{% set headerMenuNavClass = 'link-underline' %}
+{#{% block header_content %}#}
+{#{% endblock %}#}
+{% block content %}
+    <section>
+        <div class="wrapper">
+            <div class="how-works">
+                <div class="how-works__instruction">
+                    <div class="how-works__instruction-box">
+                        <img src="{{ asset('assets/img/ico/computer.svg') }}" class="how-works__instruction-img" alt="" title="">
+                        <p class="how-works__instruction-text">Прими вызов</p>
+                    </div>
+
+                    <div class="how-works__instruction-box">
+                        <img src="{{ asset('assets/img/ico/key.svg') }}" class="how-works__instruction-img" alt="" title="">
+                        <p class="how-works__instruction-text">Пройди регистрацию и получи доступ в личный кабинет</p>
+                    </div>
+
+                    <div class="how-works__instruction-box">
+                        <img src="{{ asset('assets/img/ico/play-tube.svg') }}" class="how-works__instruction-img" alt="" title="">
+                        <p class="how-works__instruction-text">Получай ежедневно мотивирующее видео и задания. Следуй рекомендациям и заполняй отчеты</p>
+                    </div>
+
+                    <div class="how-works__instruction-box">
+                        <img src="{{ asset('assets/img/ico/watch.svg') }}" class="how-works__instruction-img" alt="" title="">
+                        <p class="how-works__instruction-text">Уделяй заданиям не больше 30 мин в день</p>
+                    </div>
+                </div>
+
+                <img src="{{ asset('assets/img/mokup.png') }}" class="how-works__img" alt="" title="">
+
+                <div class="how-works__slider slick-slider">
+                    <div class="how-works__slider-item">Ежедневная поддержка</div>
+
+                    <div class="how-works__slider-item">Поддержка единомышленников</div>
+
+                    <div class="how-works__slider-item">Пошаговый план действий</div>
+
+                    <div class="how-works__slider-item">Ежедневные отчеты</div>
+
+                    <div class="how-works__slider-item">Живые встречи</div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript"
+            src="{{ asset('assets/js/components/slick.js') }}"></script>
+    <script>
+        slidesToScroll = 2;
+    </script>
+{% endblock %}

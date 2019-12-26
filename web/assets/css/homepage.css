@@ -1,0 +1,310 @@
+@font-face{font-family: Chocolatecyr; url("../fonts/chocolatecyr.otf")}
+@font-face { font-family: 'FavoritCondC';  src: local('FavoritCondC'), url('https://nomail.com.ua/files/woff/071fe832111e8e9d71e91082f0d06b61.woff') format('woff'); }
+@font-face { font-family: 'FavoritC-Bold';  src: local('FavoritC-Bold'), url('https://nomail.com.ua/files/woff/c5a867a0812895aa76c0b6e56caf49ba.woff') format('woff'); }
+
+@font-face {
+    font-family: 'Chocolatecyr-lat';
+    src:    url('https://nomail.com.ua/files/eot/71d5f0048c2b2cee3725dc9d4cea916c.eot?#iefix') format('embedded-opentype'),
+    url('https://nomail.com.ua/files/woff/71d5f0048c2b2cee3725dc9d4cea916c.woff') format('woff'),
+    url('https://nomail.com.ua/files/woff2/71d5f0048c2b2cee3725dc9d4cea916c.woff2') format('woff2');
+}
+
+/*@font-face { font-family: 'Chocolatecyr-lat';  src: local('Chocolatecyr-lat'), url('https://nomail.com.ua/files/woff/71d5f0048c2b2cee3725dc9d4cea916c.woff') format('woff'); }*/
+
+
+.tariff__price {
+    color: #fff;
+    font-size: 50px;
+    /*margin-top: 60px;*/
+    position: absolute;
+    margin-top: 0;
+    bottom: 140px;
+}
+
+.tariff__subtitle-description {
+    color: #333;
+    opacity: .5;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.header-main {
+    background: #040404;
+}
+
+.header.main.with-head {
+    background: #040404 url(../img/header-bg.png) no-repeat right center;
+}
+
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+    margin-bottom: 10px;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.form-error-message {
+    vertical-align: middle;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    height: 50px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+
+
+.hidden {
+    display: none;
+}
+
+.more-button {
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 600px) {
+    .tariff__price {
+        position: absolute;
+        bottom: 25px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .faq__box {
+        max-width: 350px;
+        margin-right: 60px;
+        /*max-width: none !important;*/
+    }
+}
+
+@media screen and (min-width: 426px) and (max-width: 768px) {
+    .tariff__price {
+        position: static;
+    }
+}
+
+.three-secrets {
+    margin-bottom: 20px;
+}
+
+.three-secrets__title {
+    /*background: #FC8A39;*/
+    /*background: linear-gradient(#FF9039, #D16F2E);*/
+    /*background: #FFD617;*/
+    background: linear-gradient(to right, #FFBB30, #FFD917);
+    height: 125px;
+    /*line-height: 125px;*/
+    border-radius: 20px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.three-secrets__title .title {
+    color: #fff;
+    font-family: 'Chocolatecyr-lat', sans-serif;
+    font-size: 60px;
+    text-shadow: -5px 5px black;
+    /*text-shadow: hoff voff blur #000;*/
+}
+
+.three-secrets__title .subtitle {
+    font-family: "FavoritCondC", sans-serif;
+    /*font-size: 2em;*/
+    color: #000;
+    font-size: 50px;
+}
+
+.three-secrets__form {
+    display: flex;
+    /*padding: 0 15px 0 20px;*/
+}
+
+.three-secrets__email {
+    font-family: "FavoritCondC", sans-serif;
+    display: inline-block;
+    margin-right: 2%;
+    width: 66%;
+    border: 4px solid #FFBD1D;
+}
+
+.three-secrets__email::placeholder {
+    font-family: "FavoritCondC", sans-serif;
+    color: #D7D7D7;
+    font-size: 30px;
+    line-height: 78px;
+    height: 78px;
+    text-align: center;
+}
+
+.three-secrets__submit {
+    width: 32% !important;
+    font-size: 3.5em;
+    text-transform: uppercase;
+    font-family: "FavoritC-Bold", sans-serif;
+    /*background: linear-gradient(#FFE8D2, #FEBD88);*/
+    /*border: 2px solid #DBC5B1;*/
+    background: url("/assets/img/red_button.png") no-repeat;
+    background-size: cover;
+    border: none;
+    color: #fff;
+}
+
+.three-secrets__email {
+    font-size: 17px;
+    line-height: 78px;
+}
+
+.three-secrets__submit,
+.three-secrets__email {
+    height: 78px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.results {
+    padding-top: 20px;
+}
+
+.tariff__text {
+    padding-bottom: 20px;
+}
+
+.tariff__box {
+    min-height: initial;
+}
+
+@media screen and (min-width: 481px) and (max-width: 812px) {
+    .three-secrets__title {
+        /*font-size: 20px;*/
+        padding-top: 20px;
+    }
+
+    .three-secrets__title .title {
+        font-size: 45px;
+        /*margin-bottom: 10px;*/
+    }
+
+    .three-secrets__title .subtitle {
+        font-size: 35px;
+    }
+
+    .three-secrets__form {
+        /*display: block;*/
+    }
+
+    .three-secrets__submit,
+    .three-secrets__email {
+        width: 50% !important;
+        /*width: 100% !important;*/
+        /*display: block !important;*/
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .three-secrets__form {
+        display: block;
+    }
+
+    .three-secrets__submit,
+    .three-secrets__email {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .three-secrets__title {
+        /*font-size: 20px;*/
+        padding-top: 20px;
+    }
+
+    .three-secrets__title .title {
+        font-size: 45px;
+        /*margin-bottom: 10px;*/
+    }
+
+    .three-secrets__title .subtitle {
+        font-size: 18px;
+        display: inline-block;
+        margin-top: 15px;
+    }
+
+    .three-secrets__form {
+        padding: 0;
+        /*height: 78px;*/
+        /*line-height: 78px;*/
+        display: block;
+    }
+
+    .three-secrets__submit {
+        margin-top: 5px;
+        vertical-align: top;
+        font-size: 47px;
+    }
+
+    .three-secrets__submit,
+    .three-secrets__email {
+        /*font-size: 15px;*/
+    }
+
+}

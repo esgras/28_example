@@ -1,0 +1,66 @@
+menu.users: Пользователи
+menu.common_questions: Частые вопросы
+menu.pages: Страницы
+menu.feedbacks: Отзывы
+menu.products: Продукты
+menu.posts: Публикации
+menu.days: Дни
+Author: Автор
+Feedback: Отзыв
+Text: Текст
+Link: Ссылка
+Minutes: Минуты
+Seconds: Секунды
+Page: Страница
+Title: Заголовок
+ID: ID
+Email: E-mail
+date.purchase: Дата покупки
+course: Курс
+CommonQuestion: Частый Вопрос
+Post: Публикация
+Created: Дата создания
+Updated: Дата изминения
+Image: Изображение
+#Product: Продукт
+Name: Название
+Days: Дни
+Price: Цена
+Users: Пользователи
+Author name: Имя Автора
+Gender: Пол
+City: Город
+Age: Возраст
+Scope: Сфера
+Position: Должность
+Aim: Цель
+date.started: Дата начала
+Mail: Почта
+know more about challenge: узнать подробнее о челендже
+Subscriber: Подписчик
+menu.subscribers: Подписчики
+Bad credentials.: Неправильное имя пользователя или пароль
+user.name: Имя
+Product.name: Название
+Email is required: E-mail обязателен
+The presented password is invalid.: Неправильный пароль
+menu.static_pages: Статические страницы
+There was an error, try later: Случилась ошибка, попробуйте позже
+Bad Request: Неправельный запрос
+Not Found: Не найден
+Not Found by us: Не найдено нами
+Page not found: Страница не найдена
+Day: День
+day.label: День
+day.previewImage: Превью
+day.listProductTitle: Продукты для дней
+Product not found: Продукт не найден
+admin.about_challenge: Узнать подробнее о челлендже
+video.not_exists: Видео не существует
+menu.three_secrets: 7 причин
+ThreeSecrets: 7 причин
+menu.landing_page: Лендинг
+LandingPage: Лендинг
+Status: Статус
+menu.landings: Лендинги
+Month: Месяц

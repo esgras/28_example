@@ -1,0 +1,22 @@
+<section class="section-blog">
+    <div class="wrapper">
+        <div class="blog">
+            <div class="blog__head">
+                <p class="blog__title"><a href="{{ path('blog_index') }}" style="color: #040404;">Блог</a></p>
+                <p class="blog__subtitle">Еженедельные статьи, истории, рассказы участников сообщества</p>
+
+                <div class="slider-nav"></div>
+            </div>
+
+            <div class="blog__content slick-slider">
+                {% for post in posts %}
+                    <div class="blog__article">
+                        <a href="{{ path('blog_view', {id: post.id}) }}"><img src="{{ asset(imageHelper.imageLink(post, 'middle')) }}" class="blog__img" alt="">
+                        <span class="blog__caption">{{ post.titleText }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

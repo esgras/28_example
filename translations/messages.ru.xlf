@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="hello_world">
+                <source>Hello World</source>
+                <target>Привет Мир</target>
+            </trans-unit>
+            <trans-unit id="goodbye">
+                <source>Goodbye</source>
+                <target>Пока</target>
+            </trans-unit>
+            <trans-unit id="menu.user">
+                <source>User</source>
+                <target>Пользователь</target>
+            </trans-unit>
+            <trans-unit id="main.page">
+                <source>Main Page</source>
+                <target>Главна страница</target>
+            </trans-unit>
+            <trans-unit id="subscribe.form">
+                <source>Subscribe form</source>
+                <target>Форма рассылки</target>
+            </trans-unit>
+            <trans-unit id="subscribe">
+                <source>Subscribe</source>
+                <target>Подписаться</target>
+            </trans-unit>
+            <trans-unit id="home.title">
+                <source>Home</source>
+                <target>Главная</target>
+            </trans-unit>
+            <trans-unit id="blog.title">
+                <source>Blog</source>
+                <target>Блог</target>
+            </trans-unit>
+            <trans-unit id="product">
+                <source>Product</source>
+                <target>Продукт</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
